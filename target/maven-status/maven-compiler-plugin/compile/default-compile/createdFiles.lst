@@ -1,0 +1,4 @@
+com\seproject\healthqa\entitys\Qtype.class
+com\seproject\healthqa\HealthQaApiApplication.class
+com\seproject\healthqa\controllers\QtypeController.class
+com\seproject\healthqa\repositorys\QtypeRepository.class
