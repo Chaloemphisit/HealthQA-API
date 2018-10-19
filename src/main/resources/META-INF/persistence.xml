@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence version="2.1" xmlns="http://xmlns.jcp.org/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
+  <persistence-unit name="com.seproject_health-qa-api_jar_0.0.1-SNAPSHOTPU" transaction-type="RESOURCE_LOCAL">
+    <provider>org.hibernate.ejb.HibernatePersistence</provider>
+    <class>com.seproject.healthqa.entitys.Qtype</class>
+    <class>com.seproject.healthqa.entitys.Usertype</class>
+    <class>com.seproject.healthqa.entitys.User</class>
+    <class>com.seproject.healthqa.entitys.Postdetail</class>
+    <class>com.seproject.healthqa.entitys.Poststatus</class>
+    <class>com.seproject.healthqa.entitys.Commentdetail</class>
+    <class>com.seproject.healthqa.entitys.Commentstatus</class>
+    <class>com.seproject.healthqa.entitys.Post</class>
+    <class>com.seproject.healthqa.entitys.EmployeeTable</class>
+    <class>com.seproject.healthqa.entitys.Comment</class>
+    <class>com.seproject.healthqa.entitys.Questiontype</class>
+    <shared-cache-mode>NONE</shared-cache-mode>
+    <properties>
+      <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/hqa?zeroDateTimeBehavior=convertToNull"/>
+      <property name="javax.persistence.jdbc.user" value="root"/>
+      <property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver"/>
+      <property name="javax.persistence.jdbc.password" value=""/>
+      <property name="javax.persistence.validation.group.pre-persist" value="javax.validation.groups.Default"/>
+      <property name="javax.persistence.validation.group.pre-update" value="javax.validation.groups.Default,com.acme.groups.Created"/>
+      <property name="javax.persistence.schema-generation.database.action" value="drop-and-create"/>
+    </properties>
+  </persistence-unit>
+</persistence>
