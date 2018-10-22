@@ -21,7 +21,6 @@
       <property name="javax.persistence.jdbc.password" value=""/>
       <property name="javax.persistence.validation.group.pre-persist" value="javax.validation.groups.Default"/>
       <property name="javax.persistence.validation.group.pre-update" value="javax.validation.groups.Default,com.acme.groups.Created"/>
-      <property name="javax.persistence.schema-generation.database.action" value="drop-and-create"/>
     </properties>
   </persistence-unit>
 </persistence>
