@@ -22,7 +22,7 @@ public class TopicPK implements Serializable {
     @NotNull
     @Column(name = "TOPIC_ID")
     private int topicId;
-    @Basic(optional = false)
+    @Basic(optional = false)	
     @NotNull
     @Column(name = "HEAD_TOPIC_ID")
     private int headTopicId;
