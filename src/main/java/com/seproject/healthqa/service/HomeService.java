@@ -45,6 +45,52 @@ public class HomeService {
 	          return BeanList;
 	}
 	
+	public List<AllTopics> getTopicsAns() {
+	      StringBuffer queryStr = new StringBuffer(" SELECT HD.HEAD_TOPIC_ID as ID ,HD.TOPIC_NAME,HD.TOPIC_TEXT,HD.QUESTION_TYPE, "
+	      		+ " (SELECT COUNT(*) FROM comment WHERE HEAD_TOPIC_ID=HD.HEAD_TOPIC_ID AND IS_DELETED='F') as commenntCount "
+	      		+ " FROM head_topic HD "
+	      		+ " WHERE HD.IS_DELETED = 'F' AND (SELECT COUNT(*) FROM comment WHERE HEAD_TOPIC_ID=HD.HEAD_TOPIC_ID AND IS_DELETED='F') > 0 "
+	      		+ " ORDER BY CREATED_DATE DESC ");
+	          List<AllTopics> BeanList = new ArrayList<AllTopics>();
+	          Query query = entityManager.createNativeQuery(queryStr.toString());
+	          List<Object[]> objectList = query.getResultList();
+	          	          
+	          for(Object[] obj:objectList){
+	        	AllTopics Bean = new AllTopics();
+	        	Bean.setHead_topic_id(Integer.parseInt(obj[0].toString()));
+	        	Bean.setTopic_name(obj[1].toString());
+	        	Bean.setTopic_text(obj[2].toString());
+	        	Bean.setQuestion_type(obj[3].toString());
+	        	Bean.setAnswer(Integer.parseInt(obj[4].toString()));
+        	
+	            BeanList.add(Bean);
+	           }
+	          return BeanList;
+	}
+	
+	public List<AllTopics> getTopicsNoAns() {
+	      StringBuffer queryStr = new StringBuffer(" SELECT HD.HEAD_TOPIC_ID as ID ,HD.TOPIC_NAME,HD.TOPIC_TEXT,HD.QUESTION_TYPE, "
+	      		+ " (SELECT COUNT(*) FROM comment WHERE HEAD_TOPIC_ID=HD.HEAD_TOPIC_ID AND IS_DELETED='F') as commenntCount "
+	      		+ " FROM head_topic HD "
+	      		+ " WHERE HD.IS_DELETED = 'F' AND (SELECT COUNT(*) FROM comment WHERE HEAD_TOPIC_ID=HD.HEAD_TOPIC_ID AND IS_DELETED='F') = 0 "
+	      		+ " ORDER BY CREATED_DATE DESC ");
+	          List<AllTopics> BeanList = new ArrayList<AllTopics>();
+	          Query query = entityManager.createNativeQuery(queryStr.toString());
+	          List<Object[]> objectList = query.getResultList();
+	          	          
+	          for(Object[] obj:objectList){
+	        	AllTopics Bean = new AllTopics();
+	        	Bean.setHead_topic_id(Integer.parseInt(obj[0].toString()));
+	        	Bean.setTopic_name(obj[1].toString());
+	        	Bean.setTopic_text(obj[2].toString());
+	        	Bean.setQuestion_type(obj[3].toString());
+	        	Bean.setAnswer(Integer.parseInt(obj[4].toString()));
+      	
+	            BeanList.add(Bean);
+	           }
+	          return BeanList;
+	}
+	
 	
 	
 

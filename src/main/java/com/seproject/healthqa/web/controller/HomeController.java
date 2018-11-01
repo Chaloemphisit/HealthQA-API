@@ -24,8 +24,20 @@ public class HomeController {
     @GetMapping(value = "/getTopics")
 //  @PreAuthorize("hasRole('USER')")
     public List<AllTopics> getTopics() {
-//    	log.info("CONECTED CONTROLLER");
         return homeService.getTopics();
     }
+    
+    @GetMapping(value = "/getTopicsAns")
+//  @PreAuthorize("hasRole('USER')")
+    public List<AllTopics> getTopicsAns() {
+        return homeService.getTopicsAns();
+    }
+    
+    @GetMapping(value = "/getTopicsNoAns")
+//  @PreAuthorize("hasRole('USER')")
+    public List<AllTopics> getTopicsNoAns() {
+        return homeService.getTopicsNoAns();
+    }
+    
 
 }
