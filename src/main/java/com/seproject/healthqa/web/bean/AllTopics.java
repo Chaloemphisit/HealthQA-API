@@ -7,6 +7,7 @@ public class AllTopics{
 	private String topic_name;
 	private String topic_text;
 	private String question_type;
+	private Integer answer;
 	
 	public Integer getHead_topic_id() {
 		return head_topic_id;
@@ -32,7 +33,13 @@ public class AllTopics{
 	public void setQuestion_type(String question_type) {
 		this.question_type = question_type;
 	}
-
+	public Integer getAnswer() {
+		return answer;
+	}
+	public void setAnswer(Integer answer) {
+		this.answer = answer;
+	}
+	
 	
 	
 	

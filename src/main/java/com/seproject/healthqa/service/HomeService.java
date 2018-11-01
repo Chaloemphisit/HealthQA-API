@@ -23,10 +23,9 @@ public class HomeService {
 	
 	
 	public List<AllTopics> getTopics() {
-	      StringBuffer queryStr = new StringBuffer("SELECT HD.HEAD_TOPIC_ID,HD.TOPIC_NAME,HD.TOPIC_TEXT,HD.QUESTION_TYPE " + 
-	      		" FROM head_topic HD " + 
-	      		" WHERE HD.IS_DELETED = 'F' " + 
-	      		" ORDER BY CREATED_DATE DESC ");
+	      StringBuffer queryStr = new StringBuffer("SELECT HD.HEAD_TOPIC_ID as ID ,HD.TOPIC_NAME,HD.TOPIC_TEXT,HD.QUESTION_TYPE "
+	      		+ " , (SELECT COUNT(*) FROM comment WHERE HEAD_TOPIC_ID=ID AND IS_DELETED='F') as commentCount "
+	      		+ " FROM head_topic HD WHERE HD.IS_DELETED = 'F' ORDER BY CREATED_DATE DESC");
 	          List<AllTopics> BeanList = new ArrayList<AllTopics>();
 	          Query query = entityManager.createNativeQuery(queryStr.toString());
 	          List<Object[]> objectList = query.getResultList();
@@ -37,7 +36,7 @@ public class HomeService {
 	        	Bean.setTopic_name(obj[1].toString());
 	        	Bean.setTopic_text(obj[2].toString());
 	        	Bean.setQuestion_type(obj[3].toString());
-	        	log.info("Head_topic_id ------->"+obj[0].toString());
+	        	Bean.setAnswer(Integer.parseInt(obj[4].toString()));
 	            BeanList.add(Bean);
 	           }
 	          return BeanList;
