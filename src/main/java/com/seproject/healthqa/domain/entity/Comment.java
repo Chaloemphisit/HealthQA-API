@@ -7,16 +7,18 @@ package com.seproject.healthqa.domain.entity;
 
 import java.io.Serializable;
 import java.util.Date;
+import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 
@@ -40,7 +42,9 @@ public class Comment implements Serializable {
     private static final long serialVersionUID = 1L;
     @EmbeddedId
     protected CommentPK commentPK;
-    @Size(max = 10000)
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 10000)
     @Column(name = "COMMENT_TEXT")
     private String commentText;
     @Column(name = "CREATED_DATE")
@@ -51,10 +55,10 @@ public class Comment implements Serializable {
     @Column(name = "REPORT_STATUS")
     private Character reportStatus;
     @JoinColumn(name = "HEAD_TOPIC_ID", referencedColumnName = "HEAD_TOPIC_ID", insertable = false, updatable = false)
-    @OneToOne(optional = false)
+    @ManyToOne(optional = false)
     private HeadTopic headTopic;
     @JoinColumn(name = "USER_ID", referencedColumnName = "USER_ID")
-    @OneToOne
+    @ManyToOne
     private User userId;
 
     public Comment() {
@@ -62,6 +66,11 @@ public class Comment implements Serializable {
 
     public Comment(CommentPK commentPK) {
         this.commentPK = commentPK;
+    }
+
+    public Comment(CommentPK commentPK, String commentText) {
+        this.commentPK = commentPK;
+        this.commentText = commentText;
     }
 
     public Comment(int commentId, int headTopicId) {

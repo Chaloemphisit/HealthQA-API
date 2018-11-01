@@ -6,18 +6,23 @@
 package com.seproject.healthqa.domain.entity;
 
 import java.io.Serializable;
+import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -39,34 +44,44 @@ public class User implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    @NotNull
     @Column(name = "USER_ID")
     private Integer userId;
-    @Size(max = 255)
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 255)
     @Column(name = "F_NAME")
     private String fName;
-    @Size(max = 255)
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 255)
     @Column(name = "L_NAME")
     private String lName;
-    @Size(max = 255)
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 255)
     @Column(name = "USERNAME")
     private String username;
-    @Size(max = 255)
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 255)
     @Column(name = "PASSWORD")
     private String password;
     // @Pattern(regexp="[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?", message="Invalid email")//if the field contains email address consider using this annotation to enforce field validation
-    @Size(max = 255)
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 255)
     @Column(name = "EMAIL")
     private String email;
     @Column(name = "IS_DELETED")
     private Character isDeleted;
-    @OneToOne(mappedBy = "userId")
-    private HeadTopic headTopic;
-    @OneToOne(mappedBy = "userId")
-    private Comment comment;
+    @OneToMany(mappedBy = "userId")
+    private List<Comment> commentList;
+    @OneToMany(mappedBy = "userId")
+    private List<HeadTopic> headTopicList;
     @JoinColumn(name = "AUTHORITY_ID", referencedColumnName = "AUTHORITY_ID")
-    @OneToOne
+    @ManyToOne
     private Authority authorityId;
 
     public User() {
@@ -74,6 +89,15 @@ public class User implements Serializable {
 
     public User(Integer userId) {
         this.userId = userId;
+    }
+
+    public User(Integer userId, String fName, String lName, String username, String password, String email) {
+        this.userId = userId;
+        this.fName = fName;
+        this.lName = lName;
+        this.username = username;
+        this.password = password;
+        this.email = email;
     }
 
     public Integer getUserId() {
@@ -132,20 +156,22 @@ public class User implements Serializable {
         this.isDeleted = isDeleted;
     }
 
-    public HeadTopic getHeadTopic() {
-        return headTopic;
+    @XmlTransient
+    public List<Comment> getCommentList() {
+        return commentList;
     }
 
-    public void setHeadTopic(HeadTopic headTopic) {
-        this.headTopic = headTopic;
+    public void setCommentList(List<Comment> commentList) {
+        this.commentList = commentList;
     }
 
-    public Comment getComment() {
-        return comment;
+    @XmlTransient
+    public List<HeadTopic> getHeadTopicList() {
+        return headTopicList;
     }
 
-    public void setComment(Comment comment) {
-        this.comment = comment;
+    public void setHeadTopicList(List<HeadTopic> headTopicList) {
+        this.headTopicList = headTopicList;
     }
 
     public Authority getAuthorityId() {

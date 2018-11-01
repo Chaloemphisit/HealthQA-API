@@ -10,6 +10,8 @@ import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
@@ -40,13 +42,17 @@ public class Configure implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    @NotNull
     @Column(name = "CONFIGURE_ID")
     private Integer configureId;
+    @Basic(optional = false)
+    @NotNull
     @Column(name = "CONFIGURE_VALUE")
-    private Integer configureValue;
-    @Size(max = 255)
+    private int configureValue;
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 255)
     @Column(name = "CONFIGURE_CODE")
     private String configureCode;
     @Size(max = 1000)
@@ -68,6 +74,12 @@ public class Configure implements Serializable {
         this.configureId = configureId;
     }
 
+    public Configure(Integer configureId, int configureValue, String configureCode) {
+        this.configureId = configureId;
+        this.configureValue = configureValue;
+        this.configureCode = configureCode;
+    }
+
     public Integer getConfigureId() {
         return configureId;
     }
@@ -76,11 +88,11 @@ public class Configure implements Serializable {
         this.configureId = configureId;
     }
 
-    public Integer getConfigureValue() {
+    public int getConfigureValue() {
         return configureValue;
     }
 
-    public void setConfigureValue(Integer configureValue) {
+    public void setConfigureValue(int configureValue) {
         this.configureValue = configureValue;
     }
 

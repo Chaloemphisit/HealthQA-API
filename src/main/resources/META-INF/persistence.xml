@@ -4,7 +4,6 @@
     <provider>org.hibernate.ejb.HibernatePersistence</provider>
     <class>com.seproject.healthqa.domain.entity.Comment</class>
     <class>com.seproject.healthqa.domain.entity.Authority</class>
-    <class>com.seproject.healthqa.domain.entity.Topic</class>
     <class>com.seproject.healthqa.domain.entity.HeadTopic</class>
     <class>com.seproject.healthqa.domain.entity.Configure</class>
     <class>com.seproject.healthqa.domain.entity.User</class>

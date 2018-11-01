@@ -19,7 +19,6 @@ import javax.validation.constraints.NotNull;
 public class CommentPK implements Serializable {
 
     @Basic(optional = false)
-    @NotNull
     @Column(name = "COMMENT_ID")
     private int commentId;
     @Basic(optional = false)
