@@ -36,11 +36,16 @@ public class HomeService {
 	        	Bean.setTopic_name(obj[1].toString());
 	        	Bean.setTopic_text(obj[2].toString());
 	        	Bean.setQuestion_type(obj[3].toString());
-	        	Bean.setAnswer(Integer.parseInt(obj[4].toString()));
+	        	
+	        	if(obj[3] != null)	Bean.setAnswer(Integer.parseInt(obj[4].toString()));
+	        	else Bean.setAnswer(0);
+	        	
 	            BeanList.add(Bean);
 	           }
 	          return BeanList;
 	}
+	
+	
 	
 
 	
