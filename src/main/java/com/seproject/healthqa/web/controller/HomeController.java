@@ -11,7 +11,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.seproject.healthqa.service.HomeService;
 import com.seproject.healthqa.web.bean.AllTopics;
+import org.springframework.web.bind.annotation.CrossOrigin;
 
+@CrossOrigin(origins = "localhost:3000", maxAge = 3600)
 @RestController
 @RequestMapping("home")
 public class HomeController {
