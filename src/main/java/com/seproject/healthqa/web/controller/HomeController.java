@@ -13,33 +13,33 @@ import com.seproject.healthqa.service.HomeService;
 import com.seproject.healthqa.web.bean.AllTopics;
 import org.springframework.web.bind.annotation.CrossOrigin;
 
-@CrossOrigin(origins = "localhost:3000", maxAge = 3600)
+@CrossOrigin
 @RestController
 @RequestMapping("home")
 public class HomeController {
-	
-	private static Logger log = Logger.getLogger("InfoLogging");
-	
-	@Autowired
-	HomeService homeService;
+
+    private static Logger log = Logger.getLogger("InfoLogging");
+
+    @Autowired
+    HomeService homeService;
+
     
     @GetMapping(value = "/getTopics")
 //  @PreAuthorize("hasRole('USER')")
     public List<AllTopics> getTopics() {
         return homeService.getTopics();
     }
-    
+
     @GetMapping(value = "/getTopicsAns")
 //  @PreAuthorize("hasRole('USER')")
     public List<AllTopics> getTopicsAns() {
         return homeService.getTopicsAns();
     }
-    
+
     @GetMapping(value = "/getTopicsNoAns")
 //  @PreAuthorize("hasRole('USER')")
     public List<AllTopics> getTopicsNoAns() {
         return homeService.getTopicsNoAns();
     }
-    
 
 }
