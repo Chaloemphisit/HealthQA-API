@@ -8,12 +8,15 @@ import java.util.logging.Logger;
 import javax.persistence.Query;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.seproject.healthqa.domain.repository.CommentRepository;
 import com.seproject.healthqa.web.bean.AllTopics;
 import com.seproject.healthqa.web.bean.Topic;
 import com.seproject.healthqa.domain.entity.Comment;
+import com.seproject.healthqa.utility.CalculateUtility;
 
 @Service
 public class QuestionService {
@@ -22,6 +25,9 @@ public class QuestionService {
 	
     @PersistenceContext
     EntityManager entityManager;
+    
+    @Autowired
+    CalculateUtility calculateUtility;
     
     public List<Topic> getTopic(int id_topic) {
     	
@@ -40,10 +46,17 @@ public class QuestionService {
 		        	Bean.setWEIGHT(Integer.parseInt(obj[2].toString()));
 		        	Bean.setHEIGHT(Integer.parseInt(obj[3].toString()));
 		        	log.info("Date ----------------------------------------------> "+obj[4]);
+		        	calculateUtility.calculateAge(obj[4]);
 //		        	Bean.setAge(obj[4]);
-		        	Bean.setSEX(obj[5].toString());
+		        	
+		        	if((obj[5].toString()).equals('M')) Bean.setSEX("Male");
+		        	else Bean.setSEX("Female");
+		        	
 		        	Bean.setDISEASE(obj[6].toString());
-		        	Bean.setQUESTION_TYPE(obj[7].toString());
+		        	
+		        	if((obj[7].toString()).equals('D')) Bean.setQUESTION_TYPE("Doctor");
+		        	else Bean.setQUESTION_TYPE("Pharmacy");
+		        	
 		        	Bean.setUSERNAME(obj[8].toString());
 		            BeanList.add(Bean);
 		           }
@@ -51,15 +64,6 @@ public class QuestionService {
    
     }
     
-//    		public int calculateAgeWithJava7(
-//    		  Date birthDate, 
-//    		  Date currentDate) {            
-//    		    // validate inputs ...                                                                               
-//    		    DateFormat formatter = new SimpleDateFormat("yyyyMMdd");                           
-//    		    int d1 = Integer.parseInt(formatter.format(birthDate));                            
-//    		    int d2 = Integer.parseInt(formatter.format(currentDate));                          
-//    		    int age = (d2 - d1) / 10000;                                                       
-//    		    return age;                                                                        
-//    		}
+
 
 }
