@@ -4,6 +4,7 @@ import java.util.Date;
 
 public class AddQuestion{
 
+	private Integer idUser;
 	private String topicName;
 	private String topicText;
 	private String questionPurpose;
@@ -15,6 +16,12 @@ public class AddQuestion{
 	private String disease;
 	
 	
+	public Integer getIdUser() {
+		return idUser;
+	}
+	public void setIdUser(Integer idUser) {
+		this.idUser = idUser;
+	}
 	public String getTopicName() {
 		return topicName;
 	}
