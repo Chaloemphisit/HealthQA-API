@@ -10,7 +10,7 @@ public class CalculateUtility {
 	private static Logger log = Logger.getLogger("InfoLogging");
     
 	
-	public int calculateAge(Date birthDate) {            
+	public int calculateAge(String birthDate) {            
 	    // validate inputs ...    
 		Date currentDate = new Date();
 	    DateFormat formatter = new SimpleDateFormat("yyyyMMdd");                           

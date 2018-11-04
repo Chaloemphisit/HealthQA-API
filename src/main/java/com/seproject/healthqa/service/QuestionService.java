@@ -26,8 +26,8 @@ public class QuestionService {
     @PersistenceContext
     EntityManager entityManager;
     
-    @Autowired
-    CalculateUtility calculateUtility;
+//    @Autowired
+//    CalculateUtility calculateUtility;
     
     public List<Topic> getTopic(int id_topic) {
     	
@@ -46,7 +46,7 @@ public class QuestionService {
 		        	Bean.setWEIGHT(Integer.parseInt(obj[2].toString()));
 		        	Bean.setHEIGHT(Integer.parseInt(obj[3].toString()));
 		        	log.info("Date ----------------------------------------------> "+obj[4]);
-		        	calculateUtility.calculateAge(obj[4]);
+//		        	calculateUtility.calculateAge(obj[4].toString());
 //		        	Bean.setAge(obj[4]);
 		        	
 		        	if((obj[5].toString()).equals('M')) Bean.setSEX("Male");
