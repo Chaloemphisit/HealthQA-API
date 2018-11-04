@@ -24,19 +24,19 @@ public class HomeController {
     HomeService homeService;
 
     
-    @GetMapping(value = "/getTopics")
+    @GetMapping(value = "/topics")
 //  @PreAuthorize("hasRole('USER')")
     public List<AllTopics> getTopics() {
         return homeService.getTopics();
     }
 
-    @GetMapping(value = "/getTopicsAns")
+    @GetMapping(value = "/ansTopics")
 //  @PreAuthorize("hasRole('USER')")
     public List<AllTopics> getTopicsAns() {
         return homeService.getTopicsAns();
     }
 
-    @GetMapping(value = "/getTopicsNoAns")
+    @GetMapping(value = "/noAnsTopics")
 //  @PreAuthorize("hasRole('USER')")
     public List<AllTopics> getTopicsNoAns() {
         return homeService.getTopicsNoAns();
