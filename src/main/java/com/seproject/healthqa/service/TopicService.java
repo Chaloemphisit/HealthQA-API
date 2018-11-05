@@ -1,5 +1,7 @@
 package com.seproject.healthqa.service;
 
+import com.seproject.healthqa.domain.entity.HeadTopic;
+import com.seproject.healthqa.domain.repository.TopicRepository;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
@@ -12,14 +14,18 @@ import org.springframework.stereotype.Service;
 import com.seproject.healthqa.web.bean.Topic;
 import com.seproject.healthqa.web.bean.Comments;
 import java.util.Date;
+import org.springframework.beans.factory.annotation.Autowired;
 
 @Service
-public class QuestionService {
+public class TopicService {
 
     private static Logger log = Logger.getLogger("InfoLogging");
 
     @PersistenceContext
     EntityManager entityManager;
+    
+    @Autowired
+    TopicRepository topicRepository;
 
     public Topic getTopic(int id_topic) {
 
@@ -87,15 +93,9 @@ public class QuestionService {
         }
         return BeanList;
     }
-
-//    		public int calculateAgeWithJava7(
-//    		  Date birthDate, 
-//    		  Date currentDate) {            
-//    		    // validate inputs ...                                                                               
-//    		    DateFormat formatter = new SimpleDateFormat("yyyyMMdd");                           
-//    		    int d1 = Integer.parseInt(formatter.format(birthDate));                            
-//    		    int d2 = Integer.parseInt(formatter.format(currentDate));                          
-//    		    int age = (d2 - d1) / 10000;                                                       
-//    		    return age;                                                                        
-//    		}
+    
+    public HeadTopic createTopic(HeadTopic headTopic) {
+        return topicRepository.save(headTopic);
+    }
+    
 }

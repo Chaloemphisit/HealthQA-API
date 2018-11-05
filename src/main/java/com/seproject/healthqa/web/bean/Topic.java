@@ -13,6 +13,7 @@ public class Topic {
     private Integer weight;
     private Integer ageY;
     private Integer ageM;
+    private Integer ageD;
     private String gender;
     private String disease;
     private String questionPurpose;
@@ -78,6 +79,16 @@ public class Topic {
     public void setAgeM(Integer ageM) {
         this.ageM = ageM;
     }
+
+    public Integer getAgeD() {
+        return ageD;
+    }
+
+    public void setAgeD(Integer ageD) {
+        this.ageD = ageD;
+    }
+    
+    
 
     public String getGender() {
         return gender;

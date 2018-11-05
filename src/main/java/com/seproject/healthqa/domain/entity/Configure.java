@@ -53,9 +53,13 @@ public class Configure implements Serializable {
     @Size(max = 1000)
     @Column(name = "CONFIGURE_DETAIL")
     private String configureDetail;
+    @Basic(optional = false)
+    @NotNull
     @Column(name = "CREATED_DATE")
     @Temporal(TemporalType.TIMESTAMP)
     private Date createdDate;
+    @Basic(optional = false)
+    @NotNull
     @Column(name = "UPDATE_DATE")
     @Temporal(TemporalType.TIMESTAMP)
     private Date updateDate;
@@ -69,10 +73,12 @@ public class Configure implements Serializable {
         this.configureId = configureId;
     }
 
-    public Configure(Integer configureId, int configureValue, String configureCode) {
+    public Configure(Integer configureId, int configureValue, String configureCode, Date createdDate, Date updateDate) {
         this.configureId = configureId;
         this.configureValue = configureValue;
         this.configureCode = configureCode;
+        this.createdDate = createdDate;
+        this.updateDate = updateDate;
     }
 
     public Integer getConfigureId() {

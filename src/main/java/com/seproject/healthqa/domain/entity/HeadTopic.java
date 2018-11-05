@@ -39,6 +39,7 @@ import javax.xml.bind.annotation.XmlTransient;
     , @NamedQuery(name = "HeadTopic.findByWeight", query = "SELECT h FROM HeadTopic h WHERE h.weight = :weight")
     , @NamedQuery(name = "HeadTopic.findByAgeY", query = "SELECT h FROM HeadTopic h WHERE h.ageY = :ageY")
     , @NamedQuery(name = "HeadTopic.findByAgeM", query = "SELECT h FROM HeadTopic h WHERE h.ageM = :ageM")
+    , @NamedQuery(name = "HeadTopic.findByAgeD", query = "SELECT h FROM HeadTopic h WHERE h.ageD = :ageD")
     , @NamedQuery(name = "HeadTopic.findBySex", query = "SELECT h FROM HeadTopic h WHERE h.sex = :sex")
     , @NamedQuery(name = "HeadTopic.findByDisease", query = "SELECT h FROM HeadTopic h WHERE h.disease = :disease")
     , @NamedQuery(name = "HeadTopic.findByCreatedDate", query = "SELECT h FROM HeadTopic h WHERE h.createdDate = :createdDate")
@@ -72,6 +73,8 @@ public class HeadTopic implements Serializable {
     private Integer ageY;
     @Column(name = "AGE_M")
     private Integer ageM;
+    @Column(name = "AGE_D")
+    private Integer ageD;
     @Column(name = "SEX")
     private Character sex;
     @Size(max = 500)
@@ -79,7 +82,7 @@ public class HeadTopic implements Serializable {
     private String disease;
     @Column(name = "CREATED_DATE")
     @Temporal(TemporalType.TIMESTAMP)
-    private Date createdDate;
+    private Date createdDate = new Date();
     @Basic(optional = false)
     @NotNull
     @Column(name = "QUESTION_TYPE")
@@ -88,10 +91,10 @@ public class HeadTopic implements Serializable {
     @Column(name = "QUESTION_PURPOSE")
     private String questionPurpose;
     @Column(name = "IS_DELETED")
-    private Character isDeleted;
+    private Character isDeleted = 'F';
     @Column(name = "REPORT_STATUS")
-    private Character reportStatus;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "headTopic")
+    private Character reportStatus = 'F';
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "headTopicId")
     private List<Comment> commentList;
     @JoinColumn(name = "USER_ID", referencedColumnName = "USER_ID")
     @ManyToOne
@@ -165,6 +168,14 @@ public class HeadTopic implements Serializable {
 
     public void setAgeM(Integer ageM) {
         this.ageM = ageM;
+    }
+
+    public Integer getAgeD() {
+        return ageD;
+    }
+
+    public void setAgeD(Integer ageD) {
+        this.ageD = ageD;
     }
 
     public Character getSex() {

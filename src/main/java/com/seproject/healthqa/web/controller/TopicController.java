@@ -1,16 +1,21 @@
 package com.seproject.healthqa.web.controller;
 
+import com.seproject.healthqa.domain.entity.HeadTopic;
 import com.seproject.healthqa.service.HomeService;
-import com.seproject.healthqa.service.QuestionService;
+import com.seproject.healthqa.service.TopicService;
 import com.seproject.healthqa.web.bean.AllTopics;
 import com.seproject.healthqa.web.bean.Topic;
 import java.util.List;
 import java.util.logging.Logger;
+import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -25,7 +30,7 @@ public class TopicController {
     @Autowired
     HomeService homeService;
     @Autowired
-    QuestionService questionService;
+    TopicService topicService;
 
     @GetMapping(value = "/all")
 //  @PreAuthorize("hasRole('USER')")
@@ -50,6 +55,12 @@ public class TopicController {
     @ResponseBody
     public ResponseEntity<?> getTopic(@PathVariable("id") int id_topic) {
     	log.info(" ID_TOPIC ---------> "+id_topic);
-        return ResponseEntity.ok(questionService.getTopic(id_topic));
+        return ResponseEntity.ok(topicService.getTopic(id_topic));
+    }
+    
+    @PostMapping()
+    public ResponseEntity<?> postCustomer(@Valid @RequestBody HeadTopic body) {
+        HeadTopic headTopic = topicService.createTopic(body);
+        return ResponseEntity.status(HttpStatus.CREATED).body(headTopic);
     }
 }

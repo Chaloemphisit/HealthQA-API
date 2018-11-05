@@ -4,8 +4,10 @@ import java.io.Serializable;
 import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.Column;
-import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
@@ -26,8 +28,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Comment.findAll", query = "SELECT c FROM Comment c")
-    , @NamedQuery(name = "Comment.findByCommentId", query = "SELECT c FROM Comment c WHERE c.commentPK.commentId = :commentId")
-    , @NamedQuery(name = "Comment.findByHeadTopicId", query = "SELECT c FROM Comment c WHERE c.commentPK.headTopicId = :headTopicId")
+    , @NamedQuery(name = "Comment.findByCommentId", query = "SELECT c FROM Comment c WHERE c.commentId = :commentId")
     , @NamedQuery(name = "Comment.findByCommentText", query = "SELECT c FROM Comment c WHERE c.commentText = :commentText")
     , @NamedQuery(name = "Comment.findByCreatedDate", query = "SELECT c FROM Comment c WHERE c.createdDate = :createdDate")
     , @NamedQuery(name = "Comment.findByIsDeleted", query = "SELECT c FROM Comment c WHERE c.isDeleted = :isDeleted")
@@ -35,8 +36,11 @@ import javax.xml.bind.annotation.XmlRootElement;
 public class Comment implements Serializable {
 
     private static final long serialVersionUID = 1L;
-    @EmbeddedId
-    protected CommentPK commentPK;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Basic(optional = false)
+    @Column(name = "COMMENT_ID")
+    private Integer commentId;
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 10000)
@@ -49,9 +53,9 @@ public class Comment implements Serializable {
     private Character isDeleted;
     @Column(name = "REPORT_STATUS")
     private Character reportStatus;
-    @JoinColumn(name = "HEAD_TOPIC_ID", referencedColumnName = "HEAD_TOPIC_ID", insertable = false, updatable = false)
+    @JoinColumn(name = "HEAD_TOPIC_ID", referencedColumnName = "HEAD_TOPIC_ID")
     @ManyToOne(optional = false)
-    private HeadTopic headTopic;
+    private HeadTopic headTopicId;
     @JoinColumn(name = "USER_ID", referencedColumnName = "USER_ID")
     @ManyToOne
     private User userId;
@@ -59,25 +63,21 @@ public class Comment implements Serializable {
     public Comment() {
     }
 
-    public Comment(CommentPK commentPK) {
-        this.commentPK = commentPK;
+    public Comment(Integer commentId) {
+        this.commentId = commentId;
     }
 
-    public Comment(CommentPK commentPK, String commentText) {
-        this.commentPK = commentPK;
+    public Comment(Integer commentId, String commentText) {
+        this.commentId = commentId;
         this.commentText = commentText;
     }
 
-    public Comment(int commentId, int headTopicId) {
-        this.commentPK = new CommentPK(commentId, headTopicId);
+    public Integer getCommentId() {
+        return commentId;
     }
 
-    public CommentPK getCommentPK() {
-        return commentPK;
-    }
-
-    public void setCommentPK(CommentPK commentPK) {
-        this.commentPK = commentPK;
+    public void setCommentId(Integer commentId) {
+        this.commentId = commentId;
     }
 
     public String getCommentText() {
@@ -112,12 +112,12 @@ public class Comment implements Serializable {
         this.reportStatus = reportStatus;
     }
 
-    public HeadTopic getHeadTopic() {
-        return headTopic;
+    public HeadTopic getHeadTopicId() {
+        return headTopicId;
     }
 
-    public void setHeadTopic(HeadTopic headTopic) {
-        this.headTopic = headTopic;
+    public void setHeadTopicId(HeadTopic headTopicId) {
+        this.headTopicId = headTopicId;
     }
 
     public User getUserId() {
@@ -131,7 +131,7 @@ public class Comment implements Serializable {
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (commentPK != null ? commentPK.hashCode() : 0);
+        hash += (commentId != null ? commentId.hashCode() : 0);
         return hash;
     }
 
@@ -142,7 +142,7 @@ public class Comment implements Serializable {
             return false;
         }
         Comment other = (Comment) object;
-        if ((this.commentPK == null && other.commentPK != null) || (this.commentPK != null && !this.commentPK.equals(other.commentPK))) {
+        if ((this.commentId == null && other.commentId != null) || (this.commentId != null && !this.commentId.equals(other.commentId))) {
             return false;
         }
         return true;
@@ -150,7 +150,7 @@ public class Comment implements Serializable {
 
     @Override
     public String toString() {
-        return "com.seproject.healthqa.domain.entity.Comment[ commentPK=" + commentPK + " ]";
+        return "com.seproject.healthqa.domain.entity.Comment[ commentId=" + commentId + " ]";
     }
 
 }
