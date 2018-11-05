@@ -1,7 +1,6 @@
 package com.seproject.healthqa.service;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -9,14 +8,9 @@ import javax.persistence.Query;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.seproject.healthqa.domain.repository.CommentRepository;
-import com.seproject.healthqa.web.bean.AllTopics;
 import com.seproject.healthqa.web.bean.Topic;
-import com.seproject.healthqa.domain.entity.Comment;
-import com.seproject.healthqa.utility.CalculateUtility;
 
 @Service
 public class QuestionService {
@@ -26,12 +20,9 @@ public class QuestionService {
     @PersistenceContext
     EntityManager entityManager;
     
-    @Autowired
-    CalculateUtility calculateUtility;
-    
     public List<Topic> getTopic(int id_topic) {
     	
-	      StringBuffer queryStr = new StringBuffer("SELECT HD.TOPIC_NAME,HD.TOPIC_TEXT,HD.WEIGHT,HD.HEIGHT,HD.Birthday," + 
+	      StringBuffer queryStr = new StringBuffer("SELECT HD.TOPIC_NAME,HD.TOPIC_TEXT,HD.WEIGHT,HD.HEIGHT,HD.AGE," + 
 	      		" HD.SEX,HD.DISEASE,HD.QUESTION_TYPE,USER.USERNAME" + 
 	      		" FROM head_topic HD LEFT JOIN user ON(user.USER_ID = HD.USER_ID)" + 
 	      		" WHERE (HD.HEAD_TOPIC_ID = "+id_topic+") AND (HD.IS_DELETED = 'F')");
@@ -45,9 +36,7 @@ public class QuestionService {
 		        	Bean.setTOPIC_TEXT(obj[1].toString());
 		        	Bean.setWEIGHT(Integer.parseInt(obj[2].toString()));
 		        	Bean.setHEIGHT(Integer.parseInt(obj[3].toString()));
-		        	log.info("Date ----------------------------------------------> "+obj[4]);
-		        	calculateUtility.calculateAge(obj[4]);
-//		        	Bean.setAge(obj[4]);
+		        	Bean.setAge(Double.parseDouble(obj[4].toString()));
 		        	
 		        	if((obj[5].toString()).equals('M')) Bean.setSEX("Male");
 		        	else Bean.setSEX("Female");

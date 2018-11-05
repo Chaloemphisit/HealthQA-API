@@ -42,7 +42,7 @@ import javax.xml.bind.annotation.XmlTransient;
     , @NamedQuery(name = "HeadTopic.findByTopicText", query = "SELECT h FROM HeadTopic h WHERE h.topicText = :topicText")
     , @NamedQuery(name = "HeadTopic.findByHeight", query = "SELECT h FROM HeadTopic h WHERE h.height = :height")
     , @NamedQuery(name = "HeadTopic.findByWeight", query = "SELECT h FROM HeadTopic h WHERE h.weight = :weight")
-    , @NamedQuery(name = "HeadTopic.findByBirthday", query = "SELECT h FROM HeadTopic h WHERE h.birthday = :birthday")
+    , @NamedQuery(name = "HeadTopic.findByAge", query = "SELECT h FROM HeadTopic h WHERE h.age = :age")
     , @NamedQuery(name = "HeadTopic.findBySex", query = "SELECT h FROM HeadTopic h WHERE h.sex = :sex")
     , @NamedQuery(name = "HeadTopic.findByDisease", query = "SELECT h FROM HeadTopic h WHERE h.disease = :disease")
     , @NamedQuery(name = "HeadTopic.findByCreatedDate", query = "SELECT h FROM HeadTopic h WHERE h.createdDate = :createdDate")
@@ -72,9 +72,9 @@ public class HeadTopic implements Serializable {
     private Integer height;
     @Column(name = "WEIGHT")
     private Integer weight;
-    @Column(name = "Birthday")
-    @Temporal(TemporalType.DATE)
-    private Date birthday;
+    // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
+    @Column(name = "AGE")
+    private Float age;
     @Column(name = "SEX")
     private Character sex;
     @Size(max = 500)
@@ -154,12 +154,12 @@ public class HeadTopic implements Serializable {
         this.weight = weight;
     }
 
-    public Date getBirthday() {
-        return birthday;
+    public Float getAge() {
+        return age;
     }
 
-    public void setBirthday(Date birthday) {
-        this.birthday = birthday;
+    public void setAge(Float age) {
+        this.age = age;
     }
 
     public Character getSex() {

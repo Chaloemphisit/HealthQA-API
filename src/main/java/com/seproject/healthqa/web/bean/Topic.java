@@ -7,7 +7,7 @@ public class Topic{
 	private String TOPIC_TEXT;
 	private Integer HEIGHT;
 	private Integer WEIGHT;
-	private Integer Age;
+	private Double Age;
 	private String SEX;
 	private String DISEASE;
 	private String QUESTION_TYPE;
@@ -38,10 +38,10 @@ public class Topic{
 	public void setWEIGHT(Integer wEIGHT) {
 		WEIGHT = wEIGHT;
 	}
-	public Integer getAge() {
+	public Double getAge() {
 		return Age;
 	}
-	public void setAge(Integer age) {
+	public void setAge(Double age) {
 		Age = age;
 	}
 	public String getSEX() {
