@@ -41,10 +41,19 @@ public class QuestionService {
             Bean.setAgeY(Integer.parseInt(obj[4].toString()));
             Bean.setAgeM(Integer.parseInt(obj[5].toString()));
             log.info("Date ----------------------------------------------> " + obj[4]);
-//		        	Bean.setAge(obj[4]);
-            Bean.setGender(obj[6].toString());
+            //		        	Bean.setAge(obj[4]);
+
+            if ((obj[6].toString()).equals('M')) {
+                Bean.setGender("ชาย");
+            } else {
+                Bean.setGender("หญิง");
+            }
             Bean.setDisease(obj[7].toString());
-            Bean.setQuestionType(obj[8].toString());
+            if ((obj[8].toString()).equals('D')) {
+                Bean.setQuestionType("คำถามเฉพาะทางแพทย์");
+            } else {
+                Bean.setQuestionType("คำถามเฉพาะทางเภสัชกร");
+            }
             Bean.setUsername(obj[9].toString());
             Bean.setCommentCount(obj[10].toString());
             Bean.setComment(getComment(id_topic));
@@ -56,9 +65,9 @@ public class QuestionService {
 
     public List<Comment> getComment(int id_topic) {
         StringBuffer queryStr = new StringBuffer("SELECT COMMENT_ID,COMMENT_TEXT,CREATED_DATE, user.F_NAME, user.L_NAME,authority.AUTHORITY_NAME"
-                                              + " FROM comment INNER JOIN user ON (comment.COMMENT_ID=user.USER_ID)"
-                                              +  "             INNER JOIN authority ON(user.AUTHORITY_ID=authority.AUTHORITY_ID)"
-                                              + " WHERE (comment.HEAD_TOPIC_ID = " + id_topic + ") AND (comment.IS_DELETED = 'F')");
+                + " FROM comment INNER JOIN user ON (comment.COMMENT_ID=user.USER_ID)"
+                + "             INNER JOIN authority ON(user.AUTHORITY_ID=authority.AUTHORITY_ID)"
+                + " WHERE (comment.HEAD_TOPIC_ID = " + id_topic + ") AND (comment.IS_DELETED = 'F')");
         List<Comment> BeanList = new ArrayList<Comment>();
         Query query = entityManager.createNativeQuery(queryStr.toString());
         List<Object[]> objectList = query.getResultList();
