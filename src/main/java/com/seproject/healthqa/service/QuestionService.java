@@ -23,9 +23,9 @@ public class QuestionService {
 
     public List<Topic> getTopic(int id_topic) {
 
-        StringBuffer queryStr = new StringBuffer("SELECT HD.TOPIC_NAME,HD.TOPIC_TEXT,HD.WEIGHT,HD.HEIGHT,HD.AGE_Y,HD.AGE_M,"
-                + " HD.SEX,HD.DISEASE,HD.QUESTION_TYPE,USER.USERNAME"
-                + " , (SELECT COUNT(*) FROM comment WHERE HEAD_TOPIC_ID=HD.HEAD_TOPIC_ID AND IS_DELETED='F') "
+        StringBuffer queryStr = new StringBuffer("SELECT HD.HEAD_TOPIC_ID, HD.TOPIC_NAME, HD.TOPIC_TEXT, HD.WEIGHT, HD.HEIGHT, HD.AGE_Y, HD.AGE_M,"
+                + " HD.SEX, HD.DISEASE, QUESTION_PURPOSE, HD.QUESTION_TYPE, USER.USERNAME, CREATED_DATE"
+                + " , (SELECT COUNT(*) FROM comment WHERE HEAD_TOPIC_ID=HD.HEAD_TOPIC_ID AND IS_DELETED='F')"
                 + " FROM head_topic HD LEFT JOIN user ON(user.USER_ID = HD.USER_ID)"
                 + " WHERE (HD.HEAD_TOPIC_ID = " + id_topic + ") AND (HD.IS_DELETED = 'F')");
         List<Topic> BeanList = new ArrayList<Topic>();
@@ -34,28 +34,32 @@ public class QuestionService {
 
         for (Object[] obj : objectList) {
             Topic Bean = new Topic();
-            Bean.setTopicName(obj[0].toString());
-            Bean.setTopicText(obj[1].toString());
-            Bean.setWieght(Integer.parseInt(obj[2].toString()));
-            Bean.setHeight(Integer.parseInt(obj[3].toString()));
-            Bean.setAgeY(Integer.parseInt(obj[4].toString()));
-            Bean.setAgeM(Integer.parseInt(obj[5].toString()));
-            log.info("Date ----------------------------------------------> " + obj[4]);
-            //		        	Bean.setAge(obj[4]);
+            Bean.setTopicId(obj[0].toString());
+            Bean.setTopicName(obj[1].toString());
+            Bean.setTopicText(obj[2].toString());
+            Bean.setWeight(Integer.parseInt(obj[3].toString()));
+            Bean.setHeight(Integer.parseInt(obj[4].toString()));
+            Bean.setAgeY(Integer.parseInt(obj[5].toString()));
+            Bean.setAgeM(Integer.parseInt(obj[6].toString()));
 
-            if ((obj[6].toString()).equals('M')) {
+            if ((obj[7].toString()).equals('M')) {
                 Bean.setGender("ชาย");
             } else {
                 Bean.setGender("หญิง");
             }
-            Bean.setDisease(obj[7].toString());
-            if ((obj[8].toString()).equals('D')) {
+            
+            Bean.setDisease(obj[8].toString());
+            Bean.setQuestionPurpose(obj[9].toString());
+            
+            if ((obj[10].toString()).equals('D')) {
                 Bean.setQuestionType("คำถามเฉพาะทางแพทย์");
             } else {
                 Bean.setQuestionType("คำถามเฉพาะทางเภสัชกร");
             }
-            Bean.setUsername(obj[9].toString());
-            Bean.setCommentCount(obj[10].toString());
+            
+            Bean.setUsername(obj[11].toString());
+            Bean.setCreateDate((java.sql.Timestamp) obj[12]);
+            Bean.setAnswerCount(obj[13].toString());
             Bean.setComment(getComment(id_topic));
             BeanList.add(Bean);
         }

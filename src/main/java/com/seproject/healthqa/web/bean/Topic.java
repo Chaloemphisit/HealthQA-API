@@ -1,23 +1,35 @@
 package com.seproject.healthqa.web.bean;
 
+import java.sql.Timestamp;
 import java.util.List;
 import sun.awt.image.ImageWatched.Link;
 
 public class Topic {
 
+    private String topicId;
     private String topicName;
     private String topicText;
     private Integer height;
-    private Integer wieght;
+    private Integer weight;
     private Integer ageY;
     private Integer ageM;
     private String gender;
     private String disease;
+    private String questionPurpose;
     private String questionType;
     private String username;
-    private String commentCount;
-    
+    private String answerCount;
+    private Timestamp createDate;
+
     private List<Comment> comment;
+
+    public String getTopicId() {
+        return topicId;
+    }
+
+    public void setTopicId(String topicId) {
+        this.topicId = topicId;
+    }
 
     public String getTopicName() {
         return topicName;
@@ -43,12 +55,12 @@ public class Topic {
         this.height = height;
     }
 
-    public Integer getWieght() {
-        return wieght;
+    public Integer getWeight() {
+        return weight;
     }
 
-    public void setWieght(Integer wieght) {
-        this.wieght = wieght;
+    public void setWeight(Integer weight) {
+        this.weight = weight;
     }
 
     public Integer getAgeY() {
@@ -67,7 +79,6 @@ public class Topic {
         this.ageM = ageM;
     }
 
-
     public String getGender() {
         return gender;
     }
@@ -83,6 +94,15 @@ public class Topic {
     public void setDisease(String disease) {
         this.disease = disease;
     }
+
+    public String getQuestionPurpose() {
+        return questionPurpose;
+    }
+
+    public void setQuestionPurpose(String questionPurpose) {
+        this.questionPurpose = questionPurpose;
+    }
+    
 
     public String getQuestionType() {
         return questionType;
@@ -108,12 +128,21 @@ public class Topic {
         this.comment = comment;
     }
 
-    public String getCommentCount() {
-        return commentCount;
+    public String getAnswerCount() {
+        return answerCount;
     }
 
-    public void setCommentCount(String commentCount) {
-        this.commentCount = commentCount;
+    public void setAnswerCount(String answerCount) {
+        this.answerCount = answerCount;
     }
 
+    public Timestamp getCreateDate() {
+        return createDate;
+    }
+
+    public void setCreateDate(Timestamp createDate) {
+        this.createDate = createDate;
+    }
+
+    
 }
