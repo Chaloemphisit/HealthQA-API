@@ -59,7 +59,7 @@ public class TopicController {
     }
     
     @PostMapping()
-    public ResponseEntity<?> postCustomer(@Valid @RequestBody HeadTopic body) {
+    public ResponseEntity<?> postTopic(@Valid @RequestBody HeadTopic body) {
         HeadTopic headTopic = topicService.createTopic(body);
         return ResponseEntity.status(HttpStatus.CREATED).body(headTopic);
     }
