@@ -63,4 +63,20 @@ public class TopicController {
         HeadTopic headTopic = topicService.createTopic(body);
         return ResponseEntity.status(HttpStatus.CREATED).body(headTopic);
     }
+    
+    @GetMapping(value = "/{id_user}/{id_topic}")
+//  @PreAuthorize("hasRole('USER')")
+    @ResponseBody
+    public boolean isReportTp(@PathVariable("id_user") int id_user,@PathVariable("id_topic") int id_topic) {
+    	log.info(" ID_TOPIC ---------> "+id_topic);
+        return false;
+    }
+    
+    @GetMapping(value = "/{id_user}/{id_comment}")
+//  @PreAuthorize("hasRole('USER')")
+    @ResponseBody
+    public boolean isReportCm(@PathVariable("id_user") int id_user,@PathVariable("id_comment") int id_topic) {
+    	log.info(" ID_TOPIC ---------> "+id_topic);
+        return false;
+    }
 }

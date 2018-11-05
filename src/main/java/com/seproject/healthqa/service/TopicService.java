@@ -1,6 +1,8 @@
 package com.seproject.healthqa.service;
 
+import com.seproject.healthqa.domain.entity.Comment;
 import com.seproject.healthqa.domain.entity.HeadTopic;
+import com.seproject.healthqa.domain.repository.CommentRepository;
 import com.seproject.healthqa.domain.repository.TopicRepository;
 import java.util.ArrayList;
 import java.util.List;
@@ -26,6 +28,8 @@ public class TopicService {
     
     @Autowired
     TopicRepository topicRepository;
+    @Autowired
+    CommentRepository commentRepository;
 
     public Topic getTopic(int id_topic) {
 
@@ -96,6 +100,33 @@ public class TopicService {
     
     public HeadTopic createTopic(HeadTopic headTopic) {
         return topicRepository.save(headTopic);
+    }
+    
+    public boolean isReportTp(int id_user,int id_topic) {
+        
+        HeadTopic table = topicRepository.findAllById(id_topic);
+        if(topicRepository.findOne(id_topic) != null){
+          if((table.getUserId().equals(id_user))&&(table.getIsDeleted().equals('F'))) {
+        	  table.setReportStatus('T');
+          }	  
+          topicRepository.save(table);
+          return true;
+        }
+        else return false;
+    }
+    
+    public boolean isReportCm(int id_user,int id_comment) {
+    	
+        Comment table = commentRepository.findAllById(id_comment);
+        if(commentRepository.findOne(id_comment) != null){
+          if((table.getUserId().equals(id_user))&&(table.getIsDeleted().equals('F'))) {
+        	  table.setReportStatus('T');
+          }	  
+          commentRepository.save(table);
+          return true;
+        }
+        else return false;
+
     }
     
 }
