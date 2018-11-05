@@ -10,7 +10,7 @@ import javax.persistence.PersistenceContext;
 import org.springframework.stereotype.Service;
 
 import com.seproject.healthqa.web.bean.Topic;
-import com.seproject.healthqa.web.bean.Comment;
+import com.seproject.healthqa.web.bean.Comments;
 import java.util.Date;
 
 @Service
@@ -60,24 +60,24 @@ public class QuestionService {
             Bean.setUsername(obj[11].toString());
             Bean.setCreateDate((java.sql.Timestamp) obj[12]);
             Bean.setAnswerCount(obj[13].toString());
-            Bean.setComment(getComment(id_topic));
+            Bean.setComments(getComment(id_topic));
             BeanList.add(Bean);
         }
         return BeanList;
 
     }
 
-    public List<Comment> getComment(int id_topic) {
+    public List<Comments> getComment(int id_topic) {
         StringBuffer queryStr = new StringBuffer("SELECT COMMENT_ID,COMMENT_TEXT,CREATED_DATE, user.F_NAME, user.L_NAME,authority.AUTHORITY_NAME"
                 + " FROM comment INNER JOIN user ON (comment.COMMENT_ID=user.USER_ID)"
                 + "             INNER JOIN authority ON(user.AUTHORITY_ID=authority.AUTHORITY_ID)"
                 + " WHERE (comment.HEAD_TOPIC_ID = " + id_topic + ") AND (comment.IS_DELETED = 'F')");
-        List<Comment> BeanList = new ArrayList<Comment>();
+        List<Comments> BeanList = new ArrayList<Comments>();
         Query query = entityManager.createNativeQuery(queryStr.toString());
         List<Object[]> objectList = query.getResultList();
 
         for (Object[] obj : objectList) {
-            Comment Bean = new Comment();
+            Comments Bean = new Comments();
             Bean.setCommentId(obj[0].toString());
             Bean.setCommentText(obj[1].toString());
 //                Bean.setCreateDate(new SimpleDateFormat("dd/MM/yyyy").parse(new SimpleDateFormat("dd/MM/yyyy").format(obj[2].toString())));

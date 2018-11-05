@@ -21,7 +21,7 @@ public class Topic {
     private String answerCount;
     private Timestamp createDate;
 
-    private List<Comment> comment;
+    private List<Comments> comments;
 
     public String getTopicId() {
         return topicId;
@@ -120,12 +120,12 @@ public class Topic {
         this.username = username;
     }
 
-    public List<Comment> getComment() {
-        return comment;
+    public List<Comments> getComments() {
+        return comments;
     }
 
-    public void setComment(List<Comment> comment) {
-        this.comment = comment;
+    public void setComments(List<Comments> comments) {
+        this.comments = comments;
     }
 
     public String getAnswerCount() {

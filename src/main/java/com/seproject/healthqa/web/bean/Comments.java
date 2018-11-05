@@ -2,7 +2,7 @@ package com.seproject.healthqa.web.bean;
 
 import java.util.Date;
 
-public class Comment {
+public class Comments {
 
     private String commentId;
     private String commentText;
