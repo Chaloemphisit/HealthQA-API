@@ -7,6 +7,7 @@ import com.seproject.healthqa.web.bean.Topic;
 import java.util.List;
 import java.util.logging.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -47,8 +48,8 @@ public class TopicController {
     @GetMapping(value = "/{id}")
 //  @PreAuthorize("hasRole('USER')")
     @ResponseBody
-    public List<Topic> getTopic(@PathVariable("id") int id_topic) {
+    public ResponseEntity<?> getTopic(@PathVariable("id") int id_topic) {
     	log.info(" ID_TOPIC ---------> "+id_topic);
-        return questionService.getTopic(id_topic);
+        return ResponseEntity.ok(questionService.getTopic(id_topic));
     }
 }

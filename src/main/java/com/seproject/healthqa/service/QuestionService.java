@@ -21,49 +21,47 @@ public class QuestionService {
     @PersistenceContext
     EntityManager entityManager;
 
-    public List<Topic> getTopic(int id_topic) {
+    public Topic getTopic(int id_topic) {
 
         StringBuffer queryStr = new StringBuffer("SELECT HD.HEAD_TOPIC_ID, HD.TOPIC_NAME, HD.TOPIC_TEXT, HD.WEIGHT, HD.HEIGHT, HD.AGE_Y, HD.AGE_M,"
                 + " HD.SEX, HD.DISEASE, QUESTION_PURPOSE, HD.QUESTION_TYPE, USER.USERNAME, CREATED_DATE"
                 + " , (SELECT COUNT(*) FROM comment WHERE HEAD_TOPIC_ID=HD.HEAD_TOPIC_ID AND IS_DELETED='F')"
                 + " FROM head_topic HD LEFT JOIN user ON(user.USER_ID = HD.USER_ID)"
                 + " WHERE (HD.HEAD_TOPIC_ID = " + id_topic + ") AND (HD.IS_DELETED = 'F')");
-        List<Topic> BeanList = new ArrayList<Topic>();
+        Topic topic = new Topic();
         Query query = entityManager.createNativeQuery(queryStr.toString());
         List<Object[]> objectList = query.getResultList();
 
         for (Object[] obj : objectList) {
-            Topic Bean = new Topic();
-            Bean.setTopicId(obj[0].toString());
-            Bean.setTopicName(obj[1].toString());
-            Bean.setTopicText(obj[2].toString());
-            Bean.setWeight(Integer.parseInt(obj[3].toString()));
-            Bean.setHeight(Integer.parseInt(obj[4].toString()));
-            Bean.setAgeY(Integer.parseInt(obj[5].toString()));
-            Bean.setAgeM(Integer.parseInt(obj[6].toString()));
+            topic.setTopicId(obj[0].toString());
+            topic.setTopicName(obj[1].toString());
+            topic.setTopicText(obj[2].toString());
+            topic.setWeight(Integer.parseInt(obj[3].toString()));
+            topic.setHeight(Integer.parseInt(obj[4].toString()));
+            topic.setAgeY(Integer.parseInt(obj[5].toString()));
+            topic.setAgeM(Integer.parseInt(obj[6].toString()));
 
             if ((obj[7].toString()).equals('M')) {
-                Bean.setGender("ชาย");
+                topic.setGender("ชาย");
             } else {
-                Bean.setGender("หญิง");
+                topic.setGender("หญิง");
             }
             
-            Bean.setDisease(obj[8].toString());
-            Bean.setQuestionPurpose(obj[9].toString());
+            topic.setDisease(obj[8].toString());
+            topic.setQuestionPurpose(obj[9].toString());
             
             if ((obj[10].toString()).equals('D')) {
-                Bean.setQuestionType("คำถามเฉพาะทางแพทย์");
+                topic.setQuestionType("คำถามเฉพาะทางแพทย์");
             } else {
-                Bean.setQuestionType("คำถามเฉพาะทางเภสัชกร");
+                topic.setQuestionType("คำถามเฉพาะทางเภสัชกร");
             }
             
-            Bean.setUsername(obj[11].toString());
-            Bean.setCreateDate((java.sql.Timestamp) obj[12]);
-            Bean.setAnswerCount(obj[13].toString());
-            Bean.setComments(getComment(id_topic));
-            BeanList.add(Bean);
+            topic.setUsername(obj[11].toString());
+            topic.setCreateDate((java.sql.Timestamp) obj[12]);
+            topic.setAnswerCount(obj[13].toString());
+            topic.setComments(getComment(id_topic));
         }
-        return BeanList;
+        return topic;
 
     }
 
