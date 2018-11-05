@@ -22,7 +22,6 @@ public class HomeController {
 
     @Autowired
     HomeService homeService;
-
     
     @GetMapping(value = "/topics")
 //  @PreAuthorize("hasRole('USER')")

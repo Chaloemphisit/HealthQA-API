@@ -20,6 +20,12 @@ public class QuestionService {
     @PersistenceContext
     EntityManager entityManager;
     
+<<<<<<< HEAD
+=======
+//    @Autowired
+//    CalculateUtility calculateUtility;
+    
+>>>>>>> 78d9329c19d03f39c285562f1ce48d34eb3ea718
     public List<Topic> getTopic(int id_topic) {
     	
 	      StringBuffer queryStr = new StringBuffer("SELECT HD.TOPIC_NAME,HD.TOPIC_TEXT,HD.WEIGHT,HD.HEIGHT,HD.AGE," + 
@@ -36,7 +42,13 @@ public class QuestionService {
 		        	Bean.setTOPIC_TEXT(obj[1].toString());
 		        	Bean.setWEIGHT(Integer.parseInt(obj[2].toString()));
 		        	Bean.setHEIGHT(Integer.parseInt(obj[3].toString()));
+<<<<<<< HEAD
 		        	Bean.setAge(Double.parseDouble(obj[4].toString()));
+=======
+		        	log.info("Date ----------------------------------------------> "+obj[4]);
+//		        	calculateUtility.calculateAge(obj[4].toString());
+//		        	Bean.setAge(obj[4]);
+>>>>>>> 78d9329c19d03f39c285562f1ce48d34eb3ea718
 		        	
 		        	if((obj[5].toString()).equals('M')) Bean.setSEX("Male");
 		        	else Bean.setSEX("Female");
