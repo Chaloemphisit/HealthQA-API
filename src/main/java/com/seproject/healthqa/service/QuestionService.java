@@ -36,7 +36,7 @@ public class QuestionService {
 		        	Bean.setTOPIC_TEXT(obj[1].toString());
 		        	Bean.setWEIGHT(Integer.parseInt(obj[2].toString()));
 		        	Bean.setHEIGHT(Integer.parseInt(obj[3].toString()));
-
+		        	Bean.setAge(Double.parseDouble(obj[4].toString()));
 		        	
 		        	if((obj[5].toString()).equals('M')) Bean.setSEX("Male");
 		        	else Bean.setSEX("Female");
