@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
 
-
 import javax.persistence.Query;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -12,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import com.seproject.healthqa.web.bean.Topic;
 import com.seproject.healthqa.web.bean.Comment;
+import java.util.Date;
 
 @Service
 public class QuestionService {
@@ -55,21 +55,24 @@ public class QuestionService {
     }
 
     public List<Comment> getComment(int id_topic) {
-        StringBuffer queryStr = new StringBuffer("SELECT COMMENT_ID,COMMENT_TEXT,CREATED_DATE, user.F_NAME, user.L_NAME "
-                + " FROM comment JOIN user ON (comment.COMMENT_ID=user.USER_ID)"
-                + " WHERE (comment.HEAD_TOPIC_ID = " + id_topic + ") AND (comment.IS_DELETED = 'F')");
+        StringBuffer queryStr = new StringBuffer("SELECT COMMENT_ID,COMMENT_TEXT,CREATED_DATE, user.F_NAME, user.L_NAME,authority.AUTHORITY_NAME"
+                                              + " FROM comment INNER JOIN user ON (comment.COMMENT_ID=user.USER_ID)"
+                                              +  "             INNER JOIN authority ON(user.AUTHORITY_ID=authority.AUTHORITY_ID)"
+                                              + " WHERE (comment.HEAD_TOPIC_ID = " + id_topic + ") AND (comment.IS_DELETED = 'F')");
         List<Comment> BeanList = new ArrayList<Comment>();
         Query query = entityManager.createNativeQuery(queryStr.toString());
         List<Object[]> objectList = query.getResultList();
 
         for (Object[] obj : objectList) {
-                Comment Bean = new Comment();
-                Bean.setCommentId(obj[0].toString());
-                Bean.setCommentText(obj[1].toString());
+            Comment Bean = new Comment();
+            Bean.setCommentId(obj[0].toString());
+            Bean.setCommentText(obj[1].toString());
 //                Bean.setCreateDate(new SimpleDateFormat("dd/MM/yyyy").parse(new SimpleDateFormat("dd/MM/yyyy").format(obj[2].toString())));
-                Bean.setName(obj[3].toString()+" "+obj[4].toString());
-                BeanList.add(Bean);
-            
+            Bean.setCreateDate((Date) obj[2]);
+            Bean.setName(obj[3].toString() + " " + obj[4].toString());
+            Bean.setUserType(obj[5].toString());
+            BeanList.add(Bean);
+
         }
         return BeanList;
     }
