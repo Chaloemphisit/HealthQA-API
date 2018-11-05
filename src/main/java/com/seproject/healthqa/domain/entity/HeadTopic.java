@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.seproject.healthqa.domain.entity;
 
 import java.io.Serializable;
@@ -30,7 +25,7 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author 59050320
+ * @author chaloemphisit
  */
 @Entity
 @Table(name = "head_topic")
@@ -42,7 +37,8 @@ import javax.xml.bind.annotation.XmlTransient;
     , @NamedQuery(name = "HeadTopic.findByTopicText", query = "SELECT h FROM HeadTopic h WHERE h.topicText = :topicText")
     , @NamedQuery(name = "HeadTopic.findByHeight", query = "SELECT h FROM HeadTopic h WHERE h.height = :height")
     , @NamedQuery(name = "HeadTopic.findByWeight", query = "SELECT h FROM HeadTopic h WHERE h.weight = :weight")
-    , @NamedQuery(name = "HeadTopic.findByAge", query = "SELECT h FROM HeadTopic h WHERE h.age = :age")
+    , @NamedQuery(name = "HeadTopic.findByAgeY", query = "SELECT h FROM HeadTopic h WHERE h.ageY = :ageY")
+    , @NamedQuery(name = "HeadTopic.findByAgeM", query = "SELECT h FROM HeadTopic h WHERE h.ageM = :ageM")
     , @NamedQuery(name = "HeadTopic.findBySex", query = "SELECT h FROM HeadTopic h WHERE h.sex = :sex")
     , @NamedQuery(name = "HeadTopic.findByDisease", query = "SELECT h FROM HeadTopic h WHERE h.disease = :disease")
     , @NamedQuery(name = "HeadTopic.findByCreatedDate", query = "SELECT h FROM HeadTopic h WHERE h.createdDate = :createdDate")
@@ -72,9 +68,10 @@ public class HeadTopic implements Serializable {
     private Integer height;
     @Column(name = "WEIGHT")
     private Integer weight;
-    // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
-    @Column(name = "AGE")
-    private Float age;
+    @Column(name = "AGE_Y")
+    private Integer ageY;
+    @Column(name = "AGE_M")
+    private Integer ageM;
     @Column(name = "SEX")
     private Character sex;
     @Size(max = 500)
@@ -154,12 +151,20 @@ public class HeadTopic implements Serializable {
         this.weight = weight;
     }
 
-    public Float getAge() {
-        return age;
+    public Integer getAgeY() {
+        return ageY;
     }
 
-    public void setAge(Float age) {
-        this.age = age;
+    public void setAgeY(Integer ageY) {
+        this.ageY = ageY;
+    }
+
+    public Integer getAgeM() {
+        return ageM;
+    }
+
+    public void setAgeM(Integer ageM) {
+        this.ageM = ageM;
     }
 
     public Character getSex() {
@@ -259,5 +264,5 @@ public class HeadTopic implements Serializable {
     public String toString() {
         return "com.seproject.healthqa.domain.entity.HeadTopic[ headTopicId=" + headTopicId + " ]";
     }
-    
+
 }

@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.seproject.healthqa.domain.entity;
 
 import java.io.Serializable;
@@ -24,7 +19,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
- * @author 59050320
+ * @author chaloemphisit
  */
 @Entity
 @Table(name = "configure")
@@ -160,5 +155,5 @@ public class Configure implements Serializable {
     public String toString() {
         return "com.seproject.healthqa.domain.entity.Configure[ configureId=" + configureId + " ]";
     }
-    
+
 }

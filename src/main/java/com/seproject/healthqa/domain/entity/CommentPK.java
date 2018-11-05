@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.seproject.healthqa.domain.entity;
 
 import java.io.Serializable;
@@ -13,7 +8,7 @@ import javax.validation.constraints.NotNull;
 
 /**
  *
- * @author 59050320
+ * @author chaloemphisit
  */
 @Embeddable
 public class CommentPK implements Serializable {
@@ -78,5 +73,5 @@ public class CommentPK implements Serializable {
     public String toString() {
         return "com.seproject.healthqa.domain.entity.CommentPK[ commentId=" + commentId + ", headTopicId=" + headTopicId + " ]";
     }
-    
+
 }

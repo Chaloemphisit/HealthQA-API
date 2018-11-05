@@ -1,75 +1,119 @@
 package com.seproject.healthqa.web.bean;
 
+import java.util.List;
+import sun.awt.image.ImageWatched.Link;
 
-public class Topic{
-	
-	private String TOPIC_NAME;
-	private String TOPIC_TEXT;
-	private Integer HEIGHT;
-	private Integer WEIGHT;
-	private Double AGE;
-	private String SEX;
-	private String DISEASE;
-	private String QUESTION_TYPE;
-	private String USERNAME;
-	
-	
-	public String getTOPIC_NAME() {
-		return TOPIC_NAME;
-	}
-	public void setTOPIC_NAME(String tOPIC_NAME) {
-		TOPIC_NAME = tOPIC_NAME;
-	}
-	public String getTOPIC_TEXT() {
-		return TOPIC_TEXT;
-	}
-	public void setTOPIC_TEXT(String tOPIC_TEXT) {
-		TOPIC_TEXT = tOPIC_TEXT;
-	}
-	public Integer getHEIGHT() {
-		return HEIGHT;
-	}
-	public void setHEIGHT(Integer hEIGHT) {
-		HEIGHT = hEIGHT;
-	}
-	public Integer getWEIGHT() {
-		return WEIGHT;
-	}
-	public void setWEIGHT(Integer wEIGHT) {
-		WEIGHT = wEIGHT;
-	}
-	public Double getAge() {
-		return AGE;
-	}
-	public void setAge(Double age) {
-		AGE = age;
-	}
-	public String getSEX() {
-		return SEX;
-	}
-	public void setSEX(String sEX) {
-		SEX = sEX;
-	}
-	public String getDISEASE() {
-		return DISEASE;
-	}
-	public void setDISEASE(String dISEASE) {
-		DISEASE = dISEASE;
-	}
-	public String getQUESTION_TYPE() {
-		return QUESTION_TYPE;
-	}
-	public void setQUESTION_TYPE(String qUESTION_TYPE) {
-		QUESTION_TYPE = qUESTION_TYPE;
-	}
-	public String getUSERNAME() {
-		return USERNAME;
-	}
-	public void setUSERNAME(String uSERNAME) {
-		USERNAME = uSERNAME;
-	}
-	
-	
-	
-	
+public class Topic {
+
+    private String topicName;
+    private String topicText;
+    private Integer height;
+    private Integer wieght;
+    private Integer ageY;
+    private Integer ageM;
+    private String gender;
+    private String disease;
+    private String questionType;
+    private String username;
+    private String commentCount;
+    
+    private List<Comment> comment;
+
+    public String getTopicName() {
+        return topicName;
+    }
+
+    public void setTopicName(String topicName) {
+        this.topicName = topicName;
+    }
+
+    public String getTopicText() {
+        return topicText;
+    }
+
+    public void setTopicText(String topicText) {
+        this.topicText = topicText;
+    }
+
+    public Integer getHeight() {
+        return height;
+    }
+
+    public void setHeight(Integer height) {
+        this.height = height;
+    }
+
+    public Integer getWieght() {
+        return wieght;
+    }
+
+    public void setWieght(Integer wieght) {
+        this.wieght = wieght;
+    }
+
+    public Integer getAgeY() {
+        return ageY;
+    }
+
+    public void setAgeY(Integer ageY) {
+        this.ageY = ageY;
+    }
+
+    public Integer getAgeM() {
+        return ageM;
+    }
+
+    public void setAgeM(Integer ageM) {
+        this.ageM = ageM;
+    }
+
+
+    public String getGender() {
+        return gender;
+    }
+
+    public void setGender(String gender) {
+        this.gender = gender;
+    }
+
+    public String getDisease() {
+        return disease;
+    }
+
+    public void setDisease(String disease) {
+        this.disease = disease;
+    }
+
+    public String getQuestionType() {
+        return questionType;
+    }
+
+    public void setQuestionType(String questionType) {
+        this.questionType = questionType;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public List<Comment> getComment() {
+        return comment;
+    }
+
+    public void setComment(List<Comment> comment) {
+        this.comment = comment;
+    }
+
+    public String getCommentCount() {
+        return commentCount;
+    }
+
+    public void setCommentCount(String commentCount) {
+        this.commentCount = commentCount;
+    }
+
 }
