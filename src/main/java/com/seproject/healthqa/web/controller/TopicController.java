@@ -37,7 +37,7 @@ public class TopicController {
     public List<AllTopics> getTopics() {
         return homeService.getTopics();
     }
-
+    
     @GetMapping(value = "/ans")
 //  @PreAuthorize("hasRole('USER')")
     public List<AllTopics> getTopicsAns() {
@@ -64,19 +64,31 @@ public class TopicController {
         return ResponseEntity.status(HttpStatus.CREATED).body(headTopic);
     }
     
-    @GetMapping(value = "/{id_user}/{id_topic}")
+//    @GetMapping(value = "/{id_user}/{id_topic}")
+////  @PreAuthorize("hasRole('USER')")
+//    @ResponseBody
+//    public boolean isReportTp(@PathVariable("id_user") int id_user,@PathVariable("id_topic") int id_topic) {
+//    	log.info(" ID_TOPIC ---------> "+id_topic);
+//        return false;
+//    }
+//    
+//    @GetMapping(value = "/{id_user}/{id_comment}")
+////  @PreAuthorize("hasRole('USER')")
+//    @ResponseBody
+//    public boolean isReportCm(@PathVariable("id_user") int id_user,@PathVariable("id_comment") int id_topic) {
+//    	log.info(" ID_TOPIC ---------> "+id_topic);
+//        return false;
+//    }
+    
+    @GetMapping(value = "/user/{id}")
 //  @PreAuthorize("hasRole('USER')")
-    @ResponseBody
-    public boolean isReportTp(@PathVariable("id_user") int id_user,@PathVariable("id_topic") int id_topic) {
-    	log.info(" ID_TOPIC ---------> "+id_topic);
-        return false;
+    public List<AllTopics> getUserTopic(@PathVariable("id") int id_user) {
+        return topicService.getUserTopic(id_user);
     }
     
-    @GetMapping(value = "/{id_user}/{id_comment}")
+    @GetMapping(value = "/user/comment/{id}")
 //  @PreAuthorize("hasRole('USER')")
-    @ResponseBody
-    public boolean isReportCm(@PathVariable("id_user") int id_user,@PathVariable("id_comment") int id_topic) {
-    	log.info(" ID_TOPIC ---------> "+id_topic);
-        return false;
+    public List<AllTopics> getUserHasCm(@PathVariable("id") int id_user) {
+        return topicService.getUserHasCm(id_user);
     }
 }
