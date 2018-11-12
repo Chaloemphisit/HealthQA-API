@@ -56,9 +56,9 @@ public class Comment implements Serializable {
     @JoinColumn(name = "HEAD_TOPIC_ID", referencedColumnName = "HEAD_TOPIC_ID")
     @ManyToOne(optional = false)
     private HeadTopic headTopicId;
-    @JoinColumn(name = "USER_ID", referencedColumnName = "USER_ID")
-    @ManyToOne
-    private User userId;
+    @JoinColumn(name = "USER_ID", referencedColumnName = "id")
+    @ManyToOne(optional = false)
+    private Users userId;
 
     public Comment() {
     }
@@ -120,11 +120,11 @@ public class Comment implements Serializable {
         this.headTopicId = headTopicId;
     }
 
-    public User getUserId() {
+    public Users getUserId() {
         return userId;
     }
 
-    public void setUserId(User userId) {
+    public void setUserId(Users userId) {
         this.userId = userId;
     }
 

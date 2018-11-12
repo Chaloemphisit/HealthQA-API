@@ -82,7 +82,7 @@ public class HeadTopic implements Serializable {
     private String disease;
     @Column(name = "CREATED_DATE")
     @Temporal(TemporalType.TIMESTAMP)
-    private Date createdDate = new Date();
+    private Date createdDate;
     @Basic(optional = false)
     @NotNull
     @Column(name = "QUESTION_TYPE")
@@ -91,14 +91,14 @@ public class HeadTopic implements Serializable {
     @Column(name = "QUESTION_PURPOSE")
     private String questionPurpose;
     @Column(name = "IS_DELETED")
-    private Character isDeleted = 'F';
+    private Character isDeleted;
     @Column(name = "REPORT_STATUS")
-    private Character reportStatus = 'F';
+    private Character reportStatus;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "headTopicId")
     private List<Comment> commentList;
-    @JoinColumn(name = "USER_ID", referencedColumnName = "USER_ID")
-    @ManyToOne
-    private User userId;
+    @JoinColumn(name = "USER_ID", referencedColumnName = "id")
+    @ManyToOne(optional = false)
+    private Users userId;
 
     public HeadTopic() {
     }
@@ -243,11 +243,11 @@ public class HeadTopic implements Serializable {
         this.commentList = commentList;
     }
 
-    public User getUserId() {
+    public Users getUserId() {
         return userId;
     }
 
-    public void setUserId(User userId) {
+    public void setUserId(Users userId) {
         this.userId = userId;
     }
 

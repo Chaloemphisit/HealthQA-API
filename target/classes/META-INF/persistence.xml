@@ -7,6 +7,7 @@
     <class>com.seproject.healthqa.domain.entity.HeadTopic</class>
     <class>com.seproject.healthqa.domain.entity.Configure</class>
     <class>com.seproject.healthqa.domain.entity.User</class>
+    <class>com.seproject.healthqa.domain.entity.Users</class>
     <shared-cache-mode>NONE</shared-cache-mode>
     <properties>
       <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/hqa?zeroDateTimeBehavior=convertToNull"/>
