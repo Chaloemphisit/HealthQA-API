@@ -1,14 +1,30 @@
 package com.seproject.healthqa.web.payload;
 
-public class UserSummary {
-    private Long id;
-    private String username;
-    private String name;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import java.util.Collection;
+import org.springframework.security.core.GrantedAuthority;
 
-    public UserSummary(Long id, String username, String name) {
+public class UserSummary {
+
+    private Long id;
+
+    private String firstname;
+
+    private String lastname;
+
+    private String username;
+
+    private String email;
+
+    private Collection<? extends GrantedAuthority> authorities;
+
+    public UserSummary(Long id, String firstname, String lastname, String username, String email, Collection<? extends GrantedAuthority> authorities) {
         this.id = id;
+        this.firstname = firstname;
+        this.lastname = lastname;
         this.username = username;
-        this.name = name;
+        this.email = email;
+        this.authorities = authorities;
     }
 
     public Long getId() {
@@ -19,6 +35,22 @@ public class UserSummary {
         this.id = id;
     }
 
+    public String getFirstname() {
+        return firstname;
+    }
+
+    public void setFirstname(String firstname) {
+        this.firstname = firstname;
+    }
+
+    public String getLastname() {
+        return lastname;
+    }
+
+    public void setLastname(String lastname) {
+        this.lastname = lastname;
+    }
+
     public String getUsername() {
         return username;
     }
@@ -27,11 +59,20 @@ public class UserSummary {
         this.username = username;
     }
 
-    public String getName() {
-        return name;
+    public String getEmail() {
+        return email;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setEmail(String email) {
+        this.email = email;
     }
+
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return authorities;
+    }
+
+    public void setAuthorities(Collection<? extends GrantedAuthority> authorities) {
+        this.authorities = authorities;
+    }
+
 }

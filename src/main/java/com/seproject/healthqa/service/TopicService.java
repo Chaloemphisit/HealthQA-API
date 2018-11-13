@@ -37,9 +37,9 @@ public class TopicService {
     public Topic getTopic(int id_topic) {
 
         StringBuffer queryStr = new StringBuffer("SELECT HD.HEAD_TOPIC_ID, HD.TOPIC_NAME, HD.TOPIC_TEXT, HD.WEIGHT, HD.HEIGHT, HD.AGE_Y, HD.AGE_M,"
-                + " HD.SEX, HD.DISEASE, QUESTION_PURPOSE, HD.QUESTION_TYPE, USER.USERNAME, CREATED_DATE"
+                + " HD.SEX, HD.DISEASE, QUESTION_PURPOSE, HD.QUESTION_TYPE, USERS.USERNAME, CREATED_DATE"
                 + " , (SELECT COUNT(*) FROM comment WHERE HEAD_TOPIC_ID=HD.HEAD_TOPIC_ID AND IS_DELETED='F')"
-                + " FROM head_topic HD LEFT JOIN user ON(user.USER_ID = HD.USER_ID)"
+                + " FROM head_topic HD LEFT JOIN users ON(users.id = HD.USER_ID)"
                 + " WHERE (HD.HEAD_TOPIC_ID = " + id_topic + ") AND (HD.IS_DELETED = 'F')");
         Topic topic = new Topic();
         Query query = entityManager.createNativeQuery(queryStr.toString());
@@ -79,9 +79,9 @@ public class TopicService {
     }
 
     public List<Comments> getComment(int id_topic) {
-        StringBuffer queryStr = new StringBuffer("SELECT COMMENT_ID,COMMENT_TEXT,CREATED_DATE, user.F_NAME, user.L_NAME,authority.AUTHORITY_NAME"
-                + " FROM comment INNER JOIN user ON (comment.COMMENT_ID=user.USER_ID)"
-                + "             INNER JOIN authority ON(user.AUTHORITY_ID=authority.AUTHORITY_ID)"
+        StringBuffer queryStr = new StringBuffer("SELECT COMMENT_ID,COMMENT_TEXT,CREATED_DATE, users.firstname, users.lastname,authority.name"
+                + " FROM comment INNER JOIN users ON (comment.COMMENT_ID=users.id)"
+                + "             INNER JOIN authority ON(users.AUTHORITY_ID=authority.AUTHORITY_ID)"
                 + " WHERE (comment.HEAD_TOPIC_ID = " + id_topic + ") AND (comment.IS_DELETED = 'F')");
         List<Comments> BeanList = new ArrayList<Comments>();
         Query query = entityManager.createNativeQuery(queryStr.toString());
@@ -166,7 +166,8 @@ public class TopicService {
 	public List<AllTopics> getUserHasCm(int id_user) {
 		
         StringBuffer queryStr = new StringBuffer("SELECT HD.HEAD_TOPIC_ID ,HD.TOPIC_NAME,HD.TOPIC_TEXT,HD.QUESTION_TYPE ,"
-        		+ " (SELECT COUNT(*) FROM comment WHERE HEAD_TOPIC_ID=HD.HEAD_TOPIC_ID AND IS_DELETED='F') as commentCount FROM head_topic HD JOIN COMMENT cm ON(HD.HEAD_TOPIC_ID = cm.COMMENT_ID) "
+        		+ " (SELECT COUNT(*) FROM comment WHERE HEAD_TOPIC_ID=HD.HEAD_TOPIC_ID AND IS_DELETED='F') as commentCount "
+                        + " FROM head_topic HD JOIN COMMENT cm ON(HD.HEAD_TOPIC_ID = cm.COMMENT_ID) "
         		+ "WHERE HD.IS_DELETED = 'F' AND cm.USER_ID = "+id_user+" ORDER BY HD.CREATED_DATE DESC ");
         List<AllTopics> BeanList = new ArrayList<AllTopics>();
         Query query = entityManager.createNativeQuery(queryStr.toString());

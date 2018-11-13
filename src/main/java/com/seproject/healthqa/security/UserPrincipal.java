@@ -12,7 +12,6 @@ import java.util.Objects;
 import java.util.stream.Collectors;
 
 public class UserPrincipal implements UserDetails {
-
     private Long id;
 
     private String firstname;
@@ -32,7 +31,7 @@ public class UserPrincipal implements UserDetails {
     public UserPrincipal(Long id, String firstname, String lastname, String username, String email, String password, Collection<? extends GrantedAuthority> authorities) {
         this.id = id;
         this.firstname = firstname;
-        this.lastname=lastname;
+        this.lastname = lastname;
         this.username = username;
         this.email = email;
         this.password = password;
@@ -40,8 +39,8 @@ public class UserPrincipal implements UserDetails {
     }
 
     public static UserPrincipal create(Users user) {
-        List<GrantedAuthority> authorities = user.getAuthority().stream().map(authority
-                -> new SimpleGrantedAuthority(authority.getName().toString())
+        List<GrantedAuthority> authorities = user.getAuthority().stream().map(role ->
+                new SimpleGrantedAuthority(role.getName().name())
         ).collect(Collectors.toList());
 
         return new UserPrincipal(
@@ -59,13 +58,15 @@ public class UserPrincipal implements UserDetails {
         return id;
     }
 
-    public String getFirstName() {
+    public String getFirstname() {
         return firstname;
     }
-    
-    public String getName() {
+
+    public String getLastname() {
         return lastname;
     }
+    
+    
 
     public String getEmail() {
         return email;
@@ -108,12 +109,8 @@ public class UserPrincipal implements UserDetails {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) {
-            return true;
-        }
-        if (o == null || getClass() != o.getClass()) {
-            return false;
-        }
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
         UserPrincipal that = (UserPrincipal) o;
         return Objects.equals(id, that.id);
     }

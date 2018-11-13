@@ -1,5 +1,7 @@
 package com.seproject.healthqa.web.controller;
 
+import com.seproject.healthqa.security.CurrentUser;
+import com.seproject.healthqa.security.UserPrincipal;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -13,7 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.seproject.healthqa.service.ProfileService;
 import com.seproject.healthqa.web.bean.AllTopics;
-
+import org.springframework.security.access.prepost.PreAuthorize;
 
 @CrossOrigin
 @RestController
@@ -24,16 +26,11 @@ public class ProfileController {
 
     @Autowired
     ProfileService profileService;
-    
-  @GetMapping(value = "/{id}")
-//@PreAuthorize("hasRole('USER')")
-  public ResponseEntity<?> getUser(@PathVariable("id") int id_user) {
-      return ResponseEntity.ok(profileService.getProfile(id_user));
-  }
-    
 
-   
-    
-    
-    
+    @GetMapping(value = "/{username}")
+    @PreAuthorize("hasAuthority('USER')")
+    public ResponseEntity<?> getUser(@CurrentUser UserPrincipal currentUser, @PathVariable("username") String username) {
+        return ResponseEntity.ok(profileService.getProfile(username));
+    }
+
 }
