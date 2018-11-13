@@ -2,8 +2,10 @@ package com.seproject.healthqa.service;
 
 import com.seproject.healthqa.domain.entity.Comment;
 import com.seproject.healthqa.domain.entity.HeadTopic;
+import com.seproject.healthqa.domain.entity.Users;
 import com.seproject.healthqa.domain.repository.CommentRepository;
 import com.seproject.healthqa.domain.repository.TopicRepository;
+import com.seproject.healthqa.security.UserPrincipal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
@@ -39,7 +41,7 @@ public class TopicService {
                 + "		HD.SEX, HD.DISEASE, QUESTION_PURPOSE, HD.QUESTION_TYPE, USERS.USERNAME, CREATED_DATE, \n"
                 + "        (SELECT COUNT(*) FROM comment WHERE HEAD_TOPIC_ID=HD.HEAD_TOPIC_ID AND IS_DELETED='F')\n"
                 + "FROM head_topic HD LEFT JOIN users ON(users.id = HD.USER_ID)\n"
-                + "WHERE (HD.HEAD_TOPIC_ID = "+id_topic+") AND (HD.IS_DELETED = 'F')");
+                + "WHERE (HD.HEAD_TOPIC_ID = " + id_topic + ") AND (HD.IS_DELETED = 'F')");
         Topic topic = new Topic();
         Query query = entityManager.createNativeQuery(queryStr.toString());
         List<Object[]> objectList = query.getResultList();
@@ -102,7 +104,13 @@ public class TopicService {
         return BeanList;
     }
 
-    public HeadTopic createTopic(HeadTopic headTopic) {
+    public HeadTopic createTopic(HeadTopic headTopic, UserPrincipal currentUser) {
+        Users user = new Users();
+        user.setId(currentUser.getId());
+        
+        headTopic.setUserId(user);
+        headTopic.setIsDeleted('F');
+        headTopic.setReportStatus('F');
         return topicRepository.save(headTopic);
     }
 

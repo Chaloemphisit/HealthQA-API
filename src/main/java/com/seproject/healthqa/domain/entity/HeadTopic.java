@@ -1,5 +1,7 @@
 package com.seproject.healthqa.domain.entity;
 
+import com.seproject.healthqa.domain.entity.audit.DateAudit;
+import com.seproject.healthqa.domain.entity.audit.TopicDateAudit;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
@@ -47,7 +49,7 @@ import javax.xml.bind.annotation.XmlTransient;
     , @NamedQuery(name = "HeadTopic.findByQuestionPurpose", query = "SELECT h FROM HeadTopic h WHERE h.questionPurpose = :questionPurpose")
     , @NamedQuery(name = "HeadTopic.findByIsDeleted", query = "SELECT h FROM HeadTopic h WHERE h.isDeleted = :isDeleted")
     , @NamedQuery(name = "HeadTopic.findByReportStatus", query = "SELECT h FROM HeadTopic h WHERE h.reportStatus = :reportStatus")})
-public class HeadTopic implements Serializable {
+public class HeadTopic extends TopicDateAudit {
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -80,9 +82,7 @@ public class HeadTopic implements Serializable {
     @Size(max = 500)
     @Column(name = "DISEASE")
     private String disease;
-    @Column(name = "CREATED_DATE")
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date createdDate;
+
     @Basic(optional = false)
     @NotNull
     @Column(name = "QUESTION_TYPE")
@@ -90,9 +90,10 @@ public class HeadTopic implements Serializable {
     @Size(max = 255)
     @Column(name = "QUESTION_PURPOSE")
     private String questionPurpose;
-    @Column(name = "IS_DELETED")
+
+    @Column(name = "IS_DELETED", columnDefinition = "char(1) default 'F'")
     private Character isDeleted;
-    @Column(name = "REPORT_STATUS")
+    @Column(name = "REPORT_STATUS", columnDefinition = "char(1) default 'F'")
     private Character reportStatus;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "headTopicId")
     private List<Comment> commentList;
@@ -192,14 +193,6 @@ public class HeadTopic implements Serializable {
 
     public void setDisease(String disease) {
         this.disease = disease;
-    }
-
-    public Date getCreatedDate() {
-        return createdDate;
-    }
-
-    public void setCreatedDate(Date createdDate) {
-        this.createdDate = createdDate;
     }
 
     public Character getQuestionType() {

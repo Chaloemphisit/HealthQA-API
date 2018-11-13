@@ -1,6 +1,8 @@
 package com.seproject.healthqa.web.controller;
 
 import com.seproject.healthqa.domain.entity.HeadTopic;
+import com.seproject.healthqa.security.CurrentUser;
+import com.seproject.healthqa.security.UserPrincipal;
 import com.seproject.healthqa.service.HomeService;
 import com.seproject.healthqa.service.TopicService;
 import com.seproject.healthqa.web.bean.AllTopics;
@@ -11,6 +13,7 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -37,7 +40,7 @@ public class TopicController {
     public List<AllTopics> getTopics() {
         return homeService.getTopics();
     }
-    
+
     @GetMapping(value = "/ans")
 //  @PreAuthorize("hasRole('USER')")
     public List<AllTopics> getTopicsAns() {
@@ -49,21 +52,22 @@ public class TopicController {
     public List<AllTopics> getTopicsNoAns() {
         return homeService.getTopicsNoAns();
     }
-    
+
     @GetMapping(value = "/{id}")
 //  @PreAuthorize("hasRole('USER')")
     @ResponseBody
     public ResponseEntity<?> getTopic(@PathVariable("id") int id_topic) {
-    	log.info(" ID_TOPIC ---------> "+id_topic);
+        log.info(" ID_TOPIC ---------> " + id_topic);
         return ResponseEntity.ok(topicService.getTopic(id_topic));
     }
-    
+
     @PostMapping()
-    public ResponseEntity<?> postTopic(@Valid @RequestBody HeadTopic body) {
-        HeadTopic headTopic = topicService.createTopic(body);
+    @PreAuthorize("hasAuthority('USER')")
+    public ResponseEntity<?> postTopic(@CurrentUser UserPrincipal currentUser, @Valid @RequestBody HeadTopic body) {
+        HeadTopic headTopic = topicService.createTopic(body, currentUser);
         return ResponseEntity.status(HttpStatus.CREATED).body(headTopic);
     }
-    
+
 //    @GetMapping(value = "/{id_user}/{id_topic}")
 ////  @PreAuthorize("hasRole('USER')")
 //    @ResponseBody
@@ -79,13 +83,12 @@ public class TopicController {
 //    	log.info(" ID_TOPIC ---------> "+id_topic);
 //        return false;
 //    }
-    
     @GetMapping(value = "/user/{id}")
 //  @PreAuthorize("hasRole('USER')")
     public List<AllTopics> getUserTopic(@PathVariable("id") int id_user) {
         return topicService.getUserTopic(id_user);
     }
-    
+
     @GetMapping(value = "/user/comment/{id}")
 //  @PreAuthorize("hasRole('USER')")
     public List<AllTopics> getUserHasCm(@PathVariable("id") int id_user) {
