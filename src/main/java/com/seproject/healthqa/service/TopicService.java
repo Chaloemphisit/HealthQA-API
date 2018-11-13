@@ -28,7 +28,7 @@ public class TopicService {
 
     @PersistenceContext
     EntityManager entityManager;
-    
+
     @Autowired
     TopicRepository topicRepository;
     @Autowired
@@ -36,10 +36,10 @@ public class TopicService {
 
     public Topic getTopic(int id_topic) {
 
-        StringBuffer queryStr = new StringBuffer("SELECT HD.HEAD_TOPIC_ID, HD.TOPIC_NAME, HD.TOPIC_TEXT, HD.WEIGHT, HD.HEIGHT, HD.AGE_Y, HD.AGE_M,"
-                + " HD.SEX, HD.DISEASE, QUESTION_PURPOSE, HD.QUESTION_TYPE, USERS.USERNAME, CREATED_DATE"
-                + " , (SELECT COUNT(*) FROM comment WHERE HEAD_TOPIC_ID=HD.HEAD_TOPIC_ID AND IS_DELETED='F')"
-                + " FROM head_topic HD LEFT JOIN users ON(users.id = HD.USER_ID)"
+        StringBuffer queryStr = new StringBuffer("SELECT HD.HEAD_TOPIC_ID, HD.TOPIC_NAME, HD.TOPIC_TEXT, HD.WEIGHT, HD.HEIGHT, HD.AGE_Y, HD.AGE_M,\n"
+                + "      HD.SEX, HD.DISEASE, QUESTION_PURPOSE, HD.QUESTION_TYPE, USERS.USERNAME, CREATED_DATE, \n"
+                + "      (SELECT COUNT(*) FROM comment WHERE HEAD_TOPIC_ID=HD.HEAD_TOPIC_ID AND IS_DELETED='F')\n"
+                + " FROM head_topic HD LEFT JOIN users ON(users.id = HD.USER_ID)\n"
                 + " WHERE (HD.HEAD_TOPIC_ID = " + id_topic + ") AND (HD.IS_DELETED = 'F')");
         Topic topic = new Topic();
         Query query = entityManager.createNativeQuery(queryStr.toString());
@@ -59,16 +59,16 @@ public class TopicService {
             } else {
                 topic.setGender("หญิง");
             }
-            
+
             topic.setDisease(obj[8].toString());
             topic.setQuestionPurpose(obj[9].toString());
-            
+
             if ((obj[10].toString()).equals('D')) {
                 topic.setQuestionType("คำถามเฉพาะทางแพทย์");
             } else {
                 topic.setQuestionType("คำถามเฉพาะทางเภสัชกร");
             }
-            
+
             topic.setUsername(obj[11].toString());
             topic.setCreateDate((java.sql.Timestamp) obj[12]);
             topic.setAnswerCount(obj[13].toString());
@@ -79,10 +79,12 @@ public class TopicService {
     }
 
     public List<Comments> getComment(int id_topic) {
-        StringBuffer queryStr = new StringBuffer("SELECT COMMENT_ID,COMMENT_TEXT,CREATED_DATE, users.firstname, users.lastname,authority.name"
+        StringBuffer queryStr = new StringBuffer("SELECT COMMENT_ID,COMMENT_TEXT,CREATED_DATE, users.firstname, users.lastname,"
+                + "		(SELECT authority.name\n"
+                + "              FROM user_authority INNER JOIN authority ON(user_authority.authority_id=authority.id)"
+                + "              WHERE users.id = user_authority.user_id)"
                 + " FROM comment INNER JOIN users ON (comment.COMMENT_ID=users.id)"
-                + "             INNER JOIN authority ON(users.AUTHORITY_ID=authority.AUTHORITY_ID)"
-                + " WHERE (comment.HEAD_TOPIC_ID = " + id_topic + ") AND (comment.IS_DELETED = 'F')");
+                + " WHERE (comment.HEAD_TOPIC_ID = 1) AND (comment.IS_DELETED = 'F');");
         List<Comments> BeanList = new ArrayList<Comments>();
         Query query = entityManager.createNativeQuery(queryStr.toString());
         List<Object[]> objectList = query.getResultList();
@@ -100,13 +102,11 @@ public class TopicService {
         }
         return BeanList;
     }
-    
+
     public HeadTopic createTopic(HeadTopic headTopic) {
         return topicRepository.save(headTopic);
     }
 
-
-    
 //    public boolean isReportTp(int id_user,int id_topic) {
 //        
 //        HeadTopic table = topicRepository.findAllById(id_topic);
@@ -133,13 +133,10 @@ public class TopicService {
 //        else return false;
 //
 //    }
-   
-    
-	
-	public List<AllTopics> getUserTopic(int id_user) {
-        StringBuffer queryStr = new StringBuffer("SELECT HD.HEAD_TOPIC_ID as ID ,HD.TOPIC_NAME,HD.TOPIC_TEXT,HD.QUESTION_TYPE " 
-        		+" , (SELECT COUNT(*) FROM comment WHERE HEAD_TOPIC_ID=ID AND IS_DELETED='F') as commentCount " 
-        		+" FROM head_topic HD WHERE HD.IS_DELETED = 'F' AND USER_ID = "+id_user+" ORDER BY CREATED_DATE DESC");
+    public List<AllTopics> getUserTopic(int id_user) {
+        StringBuffer queryStr = new StringBuffer("SELECT HD.HEAD_TOPIC_ID as ID ,HD.TOPIC_NAME,HD.TOPIC_TEXT,HD.QUESTION_TYPE "
+                + " , (SELECT COUNT(*) FROM comment WHERE HEAD_TOPIC_ID=ID AND IS_DELETED='F') as commentCount "
+                + " FROM head_topic HD WHERE HD.IS_DELETED = 'F' AND USER_ID = " + id_user + " ORDER BY CREATED_DATE DESC");
         List<AllTopics> BeanList = new ArrayList<AllTopics>();
         Query query = entityManager.createNativeQuery(queryStr.toString());
         List<Object[]> objectList = query.getResultList();
@@ -163,12 +160,12 @@ public class TopicService {
         return BeanList;
     }
 
-	public List<AllTopics> getUserHasCm(int id_user) {
-		
+    public List<AllTopics> getUserHasCm(int id_user) {
+
         StringBuffer queryStr = new StringBuffer("SELECT HD.HEAD_TOPIC_ID ,HD.TOPIC_NAME,HD.TOPIC_TEXT,HD.QUESTION_TYPE ,"
-        		+ " (SELECT COUNT(*) FROM comment WHERE HEAD_TOPIC_ID=HD.HEAD_TOPIC_ID AND IS_DELETED='F') as commentCount "
-                        + " FROM head_topic HD JOIN COMMENT cm ON(HD.HEAD_TOPIC_ID = cm.COMMENT_ID) "
-        		+ "WHERE HD.IS_DELETED = 'F' AND cm.USER_ID = "+id_user+" ORDER BY HD.CREATED_DATE DESC ");
+                + " (SELECT COUNT(*) FROM comment WHERE HEAD_TOPIC_ID=HD.HEAD_TOPIC_ID AND IS_DELETED='F') as commentCount "
+                + " FROM head_topic HD JOIN COMMENT cm ON(HD.HEAD_TOPIC_ID = cm.COMMENT_ID) "
+                + "WHERE HD.IS_DELETED = 'F' AND cm.USER_ID = " + id_user + " ORDER BY HD.CREATED_DATE DESC ");
         List<AllTopics> BeanList = new ArrayList<AllTopics>();
         Query query = entityManager.createNativeQuery(queryStr.toString());
         List<Object[]> objectList = query.getResultList();
@@ -189,7 +186,6 @@ public class TopicService {
             BeanList.add(Bean);
         }
         return BeanList;
-	}
-    
-    
+    }
+
 }
