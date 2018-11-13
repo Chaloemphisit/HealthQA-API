@@ -36,10 +36,17 @@ public class TopicService {
 
     public Topic getTopic(int id_topic) {
 
+<<<<<<< HEAD
         StringBuffer queryStr = new StringBuffer("SELECT HD.HEAD_TOPIC_ID, HD.TOPIC_NAME, HD.TOPIC_TEXT, HD.WEIGHT, HD.HEIGHT, HD.AGE_Y, HD.AGE_M,\n"
                 + "      HD.SEX, HD.DISEASE, QUESTION_PURPOSE, HD.QUESTION_TYPE, USERS.USERNAME, CREATED_DATE, \n"
                 + "      (SELECT COUNT(*) FROM comment WHERE HEAD_TOPIC_ID=HD.HEAD_TOPIC_ID AND IS_DELETED='F')\n"
                 + " FROM head_topic HD LEFT JOIN users ON(users.id = HD.USER_ID)\n"
+=======
+        StringBuffer queryStr = new StringBuffer("SELECT HD.HEAD_TOPIC_ID, HD.TOPIC_NAME, HD.TOPIC_TEXT, HD.WEIGHT, HD.HEIGHT, HD.AGE_Y, HD.AGE_M,"
+                + " HD.SEX, HD.DISEASE, QUESTION_PURPOSE, HD.QUESTION_TYPE, USERS.USERNAME, CREATED_DATE"
+                + " , (SELECT COUNT(*) FROM comment WHERE HEAD_TOPIC_ID=HD.HEAD_TOPIC_ID AND IS_DELETED='F')"
+                + " FROM head_topic HD LEFT JOIN users ON(users.id = HD.id)"
+>>>>>>> 6dd26738ea2556dcaf613a41dc538f4c81ccdbe7
                 + " WHERE (HD.HEAD_TOPIC_ID = " + id_topic + ") AND (HD.IS_DELETED = 'F')");
         Topic topic = new Topic();
         Query query = entityManager.createNativeQuery(queryStr.toString());
