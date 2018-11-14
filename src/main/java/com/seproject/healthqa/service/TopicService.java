@@ -38,7 +38,7 @@ public class TopicService {
 
     public Topic getTopic(int id_topic) {
         StringBuffer queryStr = new StringBuffer("SELECT HD.HEAD_TOPIC_ID, HD.TOPIC_NAME, HD.TOPIC_TEXT, HD.WEIGHT, HD.HEIGHT, HD.AGE_Y, HD.AGE_M, HD.AGE_D,\n"
-                + "		HD.SEX, HD.DISEASE, QUESTION_PURPOSE, HD.QUESTION_TYPE, USERS.USERNAME, CREATED_DATE, \n"
+                + "		HD.SEX, HD.DISEASE, QUESTION_PURPOSE, HD.QUESTION_TYPE, USERS.firstname, USERS.lastname, CREATED_DATE, \n"
                 + "        (SELECT COUNT(*) FROM comment WHERE HEAD_TOPIC_ID=HD.HEAD_TOPIC_ID AND IS_DELETED='F')\n"
                 + "FROM head_topic HD LEFT JOIN users ON(users.id = HD.USER_ID)\n"
                 + "WHERE (HD.HEAD_TOPIC_ID = " + id_topic + ") AND (HD.IS_DELETED = 'F')");
@@ -71,9 +71,9 @@ public class TopicService {
                 topic.setQuestionType("คำถามเฉพาะทางเภสัชกร");
             }
 
-            topic.setUsername(obj[12].toString());
-            topic.setCreateDate((java.sql.Timestamp) obj[13]);
-            topic.setAnswerCount(obj[14].toString());
+            topic.setName(obj[12].toString() + " " + obj[13].toString());
+            topic.setCreateDate((java.sql.Timestamp) obj[14]);
+            topic.setAnswerCount(obj[15].toString());
             topic.setComments(getComment(id_topic));
         }
         return topic;

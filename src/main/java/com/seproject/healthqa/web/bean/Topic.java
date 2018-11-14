@@ -18,7 +18,7 @@ public class Topic {
     private String disease;
     private String questionPurpose;
     private String questionType;
-    private String username;
+    private String name;
     private String answerCount;
     private Timestamp createDate;
 
@@ -87,6 +87,14 @@ public class Topic {
     public void setAgeD(Integer ageD) {
         this.ageD = ageD;
     }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
     
     
 
@@ -121,14 +129,6 @@ public class Topic {
 
     public void setQuestionType(String questionType) {
         this.questionType = questionType;
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
     }
 
     public List<Comments> getComments() {
