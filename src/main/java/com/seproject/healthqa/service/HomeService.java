@@ -64,7 +64,7 @@ public class HomeService {
             Bean.setTopicName(obj[1].toString());
             Bean.setTopicText(obj[2].toString());
 //            Bean.setQuestion_type(obj[3].toString());
-            if ((obj[3].toString()).equals('D')) {
+            if ((obj[3].toString()).equals("D")) {
                 Bean.setQuestionType("คำถามเฉพาะทางแพทย์");
             } else {
                 Bean.setQuestionType("คำถามเฉพาะทางเภสัชกร");
@@ -93,7 +93,7 @@ public class HomeService {
             Bean.setTopicName(obj[1].toString());
             Bean.setTopicText(obj[2].toString());
 //            Bean.setQuestion_type(obj[3].toString());
-            if ((obj[3].toString()).equals('D')) {
+            if ((obj[3].toString()).equals("D")) {
                 Bean.setQuestionType("คำถามเฉพาะทางแพทย์");
             } else {
                 Bean.setQuestionType("คำถามเฉพาะทางเภสัชกร");

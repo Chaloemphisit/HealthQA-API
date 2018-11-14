@@ -85,7 +85,7 @@ public class TopicService {
                 + "              FROM user_authority INNER JOIN authority ON(user_authority.authority_id=authority.id)"
                 + "              WHERE users.id = user_authority.user_id)"
                 + " FROM comment INNER JOIN users ON (comment.COMMENT_ID=users.id)"
-                + " WHERE (comment.HEAD_TOPIC_ID = 1) AND (comment.IS_DELETED = 'F');");
+                + " WHERE (comment.HEAD_TOPIC_ID = " + id_topic + ") AND (comment.IS_DELETED = 'F');");
         List<Comments> BeanList = new ArrayList<Comments>();
         Query query = entityManager.createNativeQuery(queryStr.toString());
         List<Object[]> objectList = query.getResultList();
@@ -107,7 +107,7 @@ public class TopicService {
     public HeadTopic createTopic(HeadTopic headTopic, UserPrincipal currentUser) {
         Users user = new Users();
         user.setId(currentUser.getId());
-        
+
         headTopic.setUserId(user);
         headTopic.setIsDeleted('F');
         headTopic.setReportStatus('F');
@@ -154,7 +154,7 @@ public class TopicService {
             Bean.setTopicName(obj[1].toString());
             Bean.setTopicText(obj[2].toString());
 //            Bean.setQuestion_type(obj[3].toString());
-            if ((obj[3].toString()).equals('D')) {
+            if ((obj[3].toString()).equals("D")) {
                 Bean.setQuestionType("คำถามเฉพาะทางแพทย์");
             } else {
                 Bean.setQuestionType("คำถามเฉพาะทางเภสัชกร");
@@ -182,7 +182,7 @@ public class TopicService {
             Bean.setTopicId(Integer.parseInt(obj[0].toString()));
             Bean.setTopicName(obj[1].toString());
             Bean.setTopicText(obj[2].toString());
-            if ((obj[3].toString()).equals('D')) {
+            if ((obj[3].toString()).equals("D")) {
                 Bean.setQuestionType("คำถามเฉพาะทางแพทย์");
             } else {
                 Bean.setQuestionType("คำถามเฉพาะทางเภสัชกร");
