@@ -7,6 +7,4 @@ import com.seproject.healthqa.domain.entity.Comment;
 
 public interface CommentRepository extends CrudRepository<Comment, Integer>{
 
-
-
 }

@@ -13,7 +13,7 @@ import java.time.Instant;
 @MappedSuperclass
 @EntityListeners(AuditingEntityListener.class)
 @JsonIgnoreProperties(
-        value = {"created_at","CREATED_DATE", "updated_at"},
+        value = {"created_at", "updated_at"},
         allowGetters = true
 )
 public abstract class DateAudit implements Serializable {
@@ -39,5 +39,5 @@ public abstract class DateAudit implements Serializable {
     public void setUpdatedAt(Instant updatedAt) {
         this.updatedAt = updatedAt;
     }
-    
+
 }

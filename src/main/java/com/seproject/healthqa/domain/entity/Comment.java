@@ -1,5 +1,6 @@
 package com.seproject.healthqa.domain.entity;
 
+import com.seproject.healthqa.domain.entity.audit.CreateDateAudit;
 import java.io.Serializable;
 import java.util.Date;
 import javax.persistence.Basic;
@@ -33,7 +34,7 @@ import javax.xml.bind.annotation.XmlRootElement;
     , @NamedQuery(name = "Comment.findByCreatedDate", query = "SELECT c FROM Comment c WHERE c.createdDate = :createdDate")
     , @NamedQuery(name = "Comment.findByIsDeleted", query = "SELECT c FROM Comment c WHERE c.isDeleted = :isDeleted")
     , @NamedQuery(name = "Comment.findByReportStatus", query = "SELECT c FROM Comment c WHERE c.reportStatus = :reportStatus")})
-public class Comment implements Serializable {
+public class Comment extends CreateDateAudit{
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -46,9 +47,11 @@ public class Comment implements Serializable {
     @Size(min = 1, max = 10000)
     @Column(name = "COMMENT_TEXT")
     private String commentText;
-    @Column(name = "CREATED_DATE")
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date createdDate;
+    
+//    @Column(name = "CREATED_DATE")
+//    @Temporal(TemporalType.TIMESTAMP)
+//    private Date createdDate;
+    
     @Column(name = "IS_DELETED")
     private Character isDeleted;
     @Column(name = "REPORT_STATUS")
@@ -88,13 +91,13 @@ public class Comment implements Serializable {
         this.commentText = commentText;
     }
 
-    public Date getCreatedDate() {
-        return createdDate;
-    }
-
-    public void setCreatedDate(Date createdDate) {
-        this.createdDate = createdDate;
-    }
+//    public Date getCreatedDate() {
+//        return createdDate;
+//    }
+//
+//    public void setCreatedDate(Date createdDate) {
+//        this.createdDate = createdDate;
+//    }
 
     public Character getIsDeleted() {
         return isDeleted;

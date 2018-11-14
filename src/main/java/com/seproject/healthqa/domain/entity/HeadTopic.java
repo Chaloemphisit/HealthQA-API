@@ -1,7 +1,7 @@
 package com.seproject.healthqa.domain.entity;
 
 import com.seproject.healthqa.domain.entity.audit.DateAudit;
-import com.seproject.healthqa.domain.entity.audit.TopicDateAudit;
+import com.seproject.healthqa.domain.entity.audit.CreateDateAudit;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
@@ -49,7 +49,7 @@ import javax.xml.bind.annotation.XmlTransient;
     , @NamedQuery(name = "HeadTopic.findByQuestionPurpose", query = "SELECT h FROM HeadTopic h WHERE h.questionPurpose = :questionPurpose")
     , @NamedQuery(name = "HeadTopic.findByIsDeleted", query = "SELECT h FROM HeadTopic h WHERE h.isDeleted = :isDeleted")
     , @NamedQuery(name = "HeadTopic.findByReportStatus", query = "SELECT h FROM HeadTopic h WHERE h.reportStatus = :reportStatus")})
-public class HeadTopic extends TopicDateAudit {
+public class HeadTopic extends CreateDateAudit {
 
     private static final long serialVersionUID = 1L;
     @Id

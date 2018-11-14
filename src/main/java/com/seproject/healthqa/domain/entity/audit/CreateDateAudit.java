@@ -16,7 +16,7 @@ import java.time.Instant;
         value = {"CREATED_DATE"},
         allowGetters = true
 )
-public abstract class TopicDateAudit implements Serializable {
+public abstract class CreateDateAudit implements Serializable {
 
     @CreatedDate
     private Instant createdDate;
