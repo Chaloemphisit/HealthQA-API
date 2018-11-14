@@ -37,7 +37,7 @@ public class TopicService {
     CommentRepository commentRepository;
 
     public Topic getTopic(int id_topic) {
-        StringBuffer queryStr = new StringBuffer("SELECT HD.HEAD_TOPIC_ID, HD.TOPIC_NAME, HD.TOPIC_TEXT, HD.WEIGHT, HD.HEIGHT, HD.AGE_Y, HD.AGE_M,\n"
+        StringBuffer queryStr = new StringBuffer("SELECT HD.HEAD_TOPIC_ID, HD.TOPIC_NAME, HD.TOPIC_TEXT, HD.WEIGHT, HD.HEIGHT, HD.AGE_Y, HD.AGE_M, HD.AGE_D,\n"
                 + "		HD.SEX, HD.DISEASE, QUESTION_PURPOSE, HD.QUESTION_TYPE, USERS.USERNAME, CREATED_DATE, \n"
                 + "        (SELECT COUNT(*) FROM comment WHERE HEAD_TOPIC_ID=HD.HEAD_TOPIC_ID AND IS_DELETED='F')\n"
                 + "FROM head_topic HD LEFT JOIN users ON(users.id = HD.USER_ID)\n"
@@ -54,25 +54,26 @@ public class TopicService {
             topic.setHeight(Integer.parseInt(obj[4].toString()));
             topic.setAgeY(Integer.parseInt(obj[5].toString()));
             topic.setAgeM(Integer.parseInt(obj[6].toString()));
+            topic.setAgeD(Integer.parseInt(obj[7].toString()));
 
-            if ((obj[7].toString()).equals('M')) {
+            if ((obj[8].toString()).equals('M')) {
                 topic.setGender("ชาย");
             } else {
                 topic.setGender("หญิง");
             }
 
-            topic.setDisease(obj[8].toString());
-            topic.setQuestionPurpose(obj[9].toString());
+            topic.setDisease(obj[9].toString());
+            topic.setQuestionPurpose(obj[10].toString());
 
-            if ((obj[10].toString()).equals('D')) {
+            if ((obj[11].toString()).equals('D')) {
                 topic.setQuestionType("คำถามเฉพาะทางแพทย์");
             } else {
                 topic.setQuestionType("คำถามเฉพาะทางเภสัชกร");
             }
 
-            topic.setUsername(obj[11].toString());
-            topic.setCreateDate((java.sql.Timestamp) obj[12]);
-            topic.setAnswerCount(obj[13].toString());
+            topic.setUsername(obj[12].toString());
+            topic.setCreateDate((java.sql.Timestamp) obj[13]);
+            topic.setAnswerCount(obj[14].toString());
             topic.setComments(getComment(id_topic));
         }
         return topic;
@@ -81,7 +82,7 @@ public class TopicService {
 
     public List<Comments> getComment(int id_topic) {
         StringBuffer queryStr = new StringBuffer("SELECT COMMENT_ID,COMMENT_TEXT,CREATED_DATE, users.firstname, users.lastname,"
-                + "		(SELECT authority.name\n"
+                + "		(SELECT authority.name"
                 + "              FROM user_authority INNER JOIN authority ON(user_authority.authority_id=authority.id)"
                 + "              WHERE users.id = user_authority.user_id)"
                 + " FROM comment INNER JOIN users ON (comment.USER_ID=users.id)"
