@@ -6,7 +6,6 @@
     <class>com.seproject.healthqa.domain.entity.Authority</class>
     <class>com.seproject.healthqa.domain.entity.HeadTopic</class>
     <class>com.seproject.healthqa.domain.entity.Configure</class>
-    <class>com.seproject.healthqa.domain.entity.User</class>
     <class>com.seproject.healthqa.domain.entity.Users</class>
     <shared-cache-mode>NONE</shared-cache-mode>
     <properties>
