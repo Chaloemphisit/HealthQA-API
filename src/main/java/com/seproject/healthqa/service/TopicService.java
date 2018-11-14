@@ -84,7 +84,7 @@ public class TopicService {
                 + "		(SELECT authority.name\n"
                 + "              FROM user_authority INNER JOIN authority ON(user_authority.authority_id=authority.id)"
                 + "              WHERE users.id = user_authority.user_id)"
-                + " FROM comment INNER JOIN users ON (comment.COMMENT_ID=users.id)"
+                + " FROM comment INNER JOIN users ON (comment.USER_ID=users.id)"
                 + " WHERE (comment.HEAD_TOPIC_ID = " + id_topic + ") AND (comment.IS_DELETED = 'F');");
         List<Comments> BeanList = new ArrayList<Comments>();
         Query query = entityManager.createNativeQuery(queryStr.toString());
