@@ -71,15 +71,15 @@ public class TopicController {
     @GetMapping(value = "/report/{id_topic}")
 //  @PreAuthorize("hasRole('USER')")
     @ResponseBody
-    public boolean isReportTp(@PathVariable("id_user") int id_user,@PathVariable("id_topic") int id_topic) {
+    public boolean isReportTp(@PathVariable("id_topic") int id_topic) {
     	log.info(" ID_TOPIC ---------> "+id_topic);
-        return false;
+        return topicService.reportTp(id_topic);
     }
     
     @GetMapping(value = "/report/{id_topic}/{id_comment}")
 //  @PreAuthorize("hasRole('USER')")
     @ResponseBody
-    public boolean isReportCm(@PathVariable("id_user") int id_user,@PathVariable("id_comment") int id_topic) {
+    public boolean isReportCm(@PathVariable("id_topic") int id_topic,@PathVariable("id_comment") int id_topic) {
     	log.info(" ID_TOPIC ---------> "+id_topic);
         return false;
     }

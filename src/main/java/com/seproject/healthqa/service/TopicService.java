@@ -116,20 +116,13 @@ public class TopicService {
         return topicRepository.save(headTopic);
     }
 
-//    public boolean isReportTp(int id_user,int id_topic) {
-//        
-//        HeadTopic table = topicRepository.findAllById(id_topic);
-//        if(topicRepository.findOne(id_topic) != null){
-//          if((table.getUserId().equals(id_user))&&(table.getIsDeleted().equals('F'))) {
-//        	  table.setReportStatus('T');
-//          }
-//          topicRepository.save(table);
-//          return true;
-//        }
-//        else return false;
-//    }
-//    
-//    public boolean isReportCm(int id_user,int id_comment) {
+    public boolean reportTp(int id_topic) {
+        
+
+        return false;
+    }
+    
+//    public boolean reportCm(int id_topic,int id_comment) {
 //    	
 //        Comment table = commentRepository.findAllById(id_comment);
 //        if(commentRepository.findOne(id_comment) != null){
