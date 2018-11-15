@@ -28,7 +28,7 @@ public class ProfileController {
     ProfileService profileService;
 
     @GetMapping(value = "/{username}")
-    @PreAuthorize("hasAuthority('USER')")
+    @PreAuthorize("hasAuthority('USER') or hasAuthority('S_USER')")
     public ResponseEntity<?> getUser(@CurrentUser UserPrincipal currentUser, @PathVariable("username") String username) {
         return ResponseEntity.ok(profileService.getProfile(username));
     }
