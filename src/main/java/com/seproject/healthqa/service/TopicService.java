@@ -87,7 +87,7 @@ public class TopicService {
                 + "              WHERE users.id = user_authority.user_id)"
                 + " FROM comment INNER JOIN users ON (comment.USER_ID=users.id)"
                 + " WHERE (comment.HEAD_TOPIC_ID = " + id_topic + ") AND (comment.IS_DELETED = 'F')"
-                + " ORDER BY CREATED_DATE DESC");
+                + " ORDER BY CREATED_DATE");
         List<Comments> BeanList = new ArrayList<Comments>();
         Query query = entityManager.createNativeQuery(queryStr.toString());
         List<Object[]> objectList = query.getResultList();
