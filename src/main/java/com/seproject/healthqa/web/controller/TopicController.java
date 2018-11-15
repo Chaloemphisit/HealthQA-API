@@ -83,15 +83,5 @@ public class TopicController {
     	log.info(" ID_TOPIC ---------> "+id_topic);
         return false;
     }
-    @GetMapping(value = "/user/{id}")
-//  @PreAuthorize("hasRole('USER')")
-    public List<AllTopics> getUserTopic(@PathVariable("id") int id_user) {
-        return topicService.getUserTopic(id_user);
-    }
 
-    @GetMapping(value = "/user/comment/{id}")
-//  @PreAuthorize("hasRole('USER')")
-    public List<AllTopics> getUserHasCm(@PathVariable("id") int id_user) {
-        return topicService.getUserHasCm(id_user);
-    }
 }

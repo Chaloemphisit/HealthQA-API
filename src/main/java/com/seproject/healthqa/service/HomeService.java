@@ -9,9 +9,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import org.springframework.stereotype.Service;
 
-import com.seproject.healthqa.domain.repository.CommentRepository;
 import com.seproject.healthqa.web.bean.AllTopics;
-import com.seproject.healthqa.domain.entity.Comment;
 
 @Service
 public class HomeService {
