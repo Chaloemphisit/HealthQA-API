@@ -5,6 +5,8 @@ import com.seproject.healthqa.domain.entity.HeadTopic;
 import com.seproject.healthqa.domain.entity.Users;
 import com.seproject.healthqa.domain.repository.CommentRepository;
 import com.seproject.healthqa.domain.repository.TopicRepository;
+import com.seproject.healthqa.exception.CustomException;
+import com.seproject.healthqa.exception.ResourceNotFoundException;
 import com.seproject.healthqa.security.UserPrincipal;
 import java.util.ArrayList;
 import java.util.List;
@@ -19,9 +21,14 @@ import com.seproject.healthqa.web.bean.Topic;
 import com.seproject.healthqa.web.bean.AllTopics;
 import com.seproject.healthqa.web.bean.Comments;
 import com.seproject.healthqa.web.bean.Profile;
+import java.sql.Timestamp;
 
 import java.util.Date;
+import javax.persistence.NoResultException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.client.HttpStatusCodeException;
 
 @Service
 public class TopicService {
@@ -36,15 +43,20 @@ public class TopicService {
     @Autowired
     CommentRepository commentRepository;
 
-    public Topic getTopic(int id_topic) {
+    public ResponseEntity<?> getTopic(int id_topic) {
         StringBuffer queryStr = new StringBuffer("SELECT HD.HEAD_TOPIC_ID, HD.TOPIC_NAME, HD.TOPIC_TEXT, HD.WEIGHT, HD.HEIGHT, HD.AGE_Y, HD.AGE_M, HD.AGE_D,\n"
                 + "		HD.SEX, HD.DISEASE, QUESTION_PURPOSE, HD.QUESTION_TYPE, USERS.firstname, USERS.lastname, CREATED_DATE, \n"
                 + "        (SELECT COUNT(*) FROM comment WHERE HEAD_TOPIC_ID=HD.HEAD_TOPIC_ID AND IS_DELETED='F')\n"
                 + "FROM head_topic HD LEFT JOIN users ON(users.id = HD.USER_ID)\n"
                 + "WHERE (HD.HEAD_TOPIC_ID = " + id_topic + ") AND (HD.IS_DELETED = 'F')");
         Topic topic = new Topic();
+
         Query query = entityManager.createNativeQuery(queryStr.toString());
         List<Object[]> objectList = query.getResultList();
+
+        if (objectList.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new CustomException(new Timestamp(System.currentTimeMillis()), 404, "Not Found", "Topic Not Found"));
+        }
 
         for (Object[] obj : objectList) {
             topic.setTopicId(obj[0].toString());
@@ -76,7 +88,7 @@ public class TopicService {
             topic.setAnswerCount(obj[15].toString());
             topic.setComments(getComment(id_topic));
         }
-        return topic;
+        return ResponseEntity.ok(topic);
 
     }
 
@@ -117,11 +129,10 @@ public class TopicService {
     }
 
     public boolean reportTp(int id_topic) {
-        
 
         return false;
     }
-    
+
 //    public boolean reportCm(int id_topic,int id_comment) {
 //    	
 //        Comment table = commentRepository.findAllById(id_comment);

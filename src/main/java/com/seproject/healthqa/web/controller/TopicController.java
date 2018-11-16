@@ -7,6 +7,8 @@ import com.seproject.healthqa.service.HomeService;
 import com.seproject.healthqa.service.TopicService;
 import com.seproject.healthqa.web.bean.AllTopics;
 import com.seproject.healthqa.web.bean.Topic;
+import com.seproject.healthqa.web.payload.ApiResponse;
+import java.net.URI;
 import java.util.List;
 import java.util.logging.Logger;
 import javax.validation.Valid;
@@ -22,6 +24,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 @CrossOrigin
 @RestController
@@ -57,30 +60,37 @@ public class TopicController {
 //  @PreAuthorize("hasRole('USER')")
     @ResponseBody
     public ResponseEntity<?> getTopic(@PathVariable("id") int id_topic) {
-        log.info(" ID_TOPIC ---------> " + id_topic);
-        return ResponseEntity.ok(topicService.getTopic(id_topic));
+        return topicService.getTopic(id_topic);
     }
 
     @PostMapping()
     @PreAuthorize("hasAuthority('USER')")
     public ResponseEntity<?> postTopic(@CurrentUser UserPrincipal currentUser, @Valid @RequestBody HeadTopic body) {
         HeadTopic headTopic = topicService.createTopic(body, currentUser);
-        return ResponseEntity.status(HttpStatus.CREATED).body(headTopic);
+//        return ResponseEntity.status(HttpStatus.CREATED).body(headTopic);
+
+        URI location = ServletUriComponentsBuilder
+                .fromCurrentContextPath().path("/topic/{headtopicid}")
+                .buildAndExpand(headTopic.getHeadTopicId()).toUri();
+
+        String redirect = "/topic/" + headTopic.getHeadTopicId();
+
+        return ResponseEntity.created(location).body(new ApiResponse(true, "ตั้งคำถามสำเร็จ", redirect));
     }
 
     @GetMapping(value = "/report/{id_topic}")
 //  @PreAuthorize("hasRole('USER')")
     @ResponseBody
     public boolean isReportTp(@PathVariable("id_topic") int id_topic) {
-    	log.info(" ID_TOPIC ---------> "+id_topic);
+        log.info(" ID_TOPIC ---------> " + id_topic);
         return topicService.reportTp(id_topic);
     }
-    
+
     @GetMapping(value = "/report/{id_topic}/{id_comment}")
 //  @PreAuthorize("hasRole('USER')")
     @ResponseBody
-    public boolean isReportCm(@PathVariable("id_topic") int id_topic,@PathVariable("id_comment") int id_topic) {
-    	log.info(" ID_TOPIC ---------> "+id_topic);
+    public boolean isReportCm(@PathVariable("id_topic") int id_topic, @PathVariable("id_comment") int id_comment) {
+        log.info(" ID_TOPIC ---------> " + id_topic);
         return false;
     }
 
