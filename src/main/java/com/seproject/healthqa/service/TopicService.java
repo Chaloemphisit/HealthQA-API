@@ -4,7 +4,6 @@ import com.seproject.healthqa.domain.entity.Comment;
 import com.seproject.healthqa.domain.entity.HeadTopic;
 import com.seproject.healthqa.domain.entity.Users;
 import com.seproject.healthqa.domain.repository.CommentRepository;
-import com.seproject.healthqa.domain.repository.TopicRepository;
 import com.seproject.healthqa.exception.CustomException;
 import com.seproject.healthqa.exception.ResourceNotFoundException;
 import com.seproject.healthqa.security.UserPrincipal;
@@ -24,11 +23,14 @@ import com.seproject.healthqa.web.bean.Profile;
 import java.sql.Timestamp;
 
 import java.util.Date;
+import java.util.Optional;
+import javassist.tools.web.BadHttpRequest;
 import javax.persistence.NoResultException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.HttpStatusCodeException;
+import com.seproject.healthqa.domain.repository.HeadTopicRepository;
 
 @Service
 public class TopicService {
@@ -39,7 +41,7 @@ public class TopicService {
     EntityManager entityManager;
 
     @Autowired
-    TopicRepository topicRepository;
+    HeadTopicRepository topicRepository;
     @Autowired
     CommentRepository commentRepository;
 
@@ -203,4 +205,28 @@ public class TopicService {
         return BeanList;
     }
 
+    public Optional<HeadTopic> reportTopic(Integer id) {
+        Optional<HeadTopic> headTopic = topicRepository.findById(id);
+//        if (topicRepository.existsByHeadTopicId(id)) {
+
+        if (!headTopic.isPresent()) {
+            return headTopic;
+        }
+
+        HeadTopic topic = headTopic.get();
+        topic.setReportStatus('T');
+
+        return Optional.of(topicRepository.save(topic));
+
+    }
+
+//        public HeadTopic createTopic(HeadTopic headTopic, UserPrincipal currentUser) {
+//        Users user = new Users();
+//        user.setId(currentUser.getId());
+//
+//        headTopic.setUserId(user);
+//        headTopic.setIsDeleted('F');
+//        headTopic.setReportStatus('F');
+//        return topicRepository.save(headTopic);
+//    }
 }

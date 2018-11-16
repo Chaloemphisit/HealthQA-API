@@ -27,6 +27,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
         prePostEnabled = true
 )
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
+
     @Autowired
     CustomUserDetailsService customUserDetailsService;
 
@@ -60,24 +61,22 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .cors()
-                    .and()
+                .and()
                 .csrf()
-                    .disable()
+                .disable()
                 .exceptionHandling()
-                    .authenticationEntryPoint(unauthorizedHandler)
-                    .and()
+                .authenticationEntryPoint(unauthorizedHandler)
+                .and()
                 .sessionManagement()
-                    .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-                    .and()
+                .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                .and()
                 .authorizeRequests()
-                    .antMatchers("/**/auth/**")
-                        .permitAll()
-                    .antMatchers("/**/checkUsernameAvailability", "/**/checkEmailAvailability")
-                        .permitAll()
-                    .antMatchers(HttpMethod.GET, "/**/topic/**")
-                        .permitAll()
-                    .anyRequest()
-                        .authenticated();
+                .antMatchers("/**/auth/**").permitAll()
+                .antMatchers("/**/checkUsernameAvailability", "/**/checkEmailAvailability").permitAll()
+                .antMatchers(HttpMethod.GET, "/**/topic/**").permitAll()
+                .antMatchers("/**/report/**").permitAll()
+                .anyRequest()
+                .authenticated();
 
         // Add our custom JWT security filter
         http.addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);

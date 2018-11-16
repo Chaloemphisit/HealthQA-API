@@ -1,6 +1,7 @@
 package com.seproject.healthqa.web.controller;
 
 import com.seproject.healthqa.domain.entity.HeadTopic;
+import com.seproject.healthqa.exception.CustomException;
 import com.seproject.healthqa.security.CurrentUser;
 import com.seproject.healthqa.security.UserPrincipal;
 import com.seproject.healthqa.service.HomeService;
@@ -9,8 +10,11 @@ import com.seproject.healthqa.web.bean.AllTopics;
 import com.seproject.healthqa.web.bean.Topic;
 import com.seproject.healthqa.web.payload.ApiResponse;
 import java.net.URI;
+import java.sql.Timestamp;
 import java.util.List;
+import java.util.Optional;
 import java.util.logging.Logger;
+import javassist.tools.web.BadHttpRequest;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -20,6 +24,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -94,4 +99,14 @@ public class TopicController {
         return false;
     }
 
+    @PutMapping("/report/{id}")
+    public ResponseEntity<?> reportTopic(@PathVariable("id") Integer id){
+//        return ResponseEntity.ok().body(topicService.reportTopic(id));
+        Optional<HeadTopic> topic = topicService.reportTopic(id);
+        if (!topic.isPresent()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new CustomException(new Timestamp(System.currentTimeMillis()), 404, "Not Found", "Topic Not Found"));
+        }
+        
+        return ResponseEntity.ok().body(new ApiResponse(true, "รายงานเสำเร็จ"));
+    }
 }
