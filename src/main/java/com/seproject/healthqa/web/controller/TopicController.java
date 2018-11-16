@@ -79,9 +79,9 @@ public class TopicController {
     @GetMapping(value = "/report/{id_topic}/{id_comment}")
 //  @PreAuthorize("hasRole('USER')")
     @ResponseBody
-    public boolean isReportCm(@PathVariable("id_topic") int id_topic,@PathVariable("id_comment") int id_topic) {
+    public boolean isReportCm(@PathVariable("id_topic") int id_topic,@PathVariable("id_comment") int id_comment) {
     	log.info(" ID_TOPIC ---------> "+id_topic);
-        return false;
+        return topicService.reportCm(id_topic,id_comment);
     }
 
 }

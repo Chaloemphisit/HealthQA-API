@@ -21,6 +21,7 @@ import com.seproject.healthqa.web.bean.Comments;
 import com.seproject.healthqa.web.bean.Profile;
 
 import java.util.Date;
+import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 
 @Service
@@ -115,26 +116,31 @@ public class TopicService {
         headTopic.setReportStatus('F');
         return topicRepository.save(headTopic);
     }
-
+    
+//      TsTbMsPeriod table = periodRepository.findOne(id);
+//      if(periodRepository.findOne(id) != null){
+//      table.setIsDeleted("T");
+//      periodRepository.save(table);
+//      return true;
+      
     public boolean reportTp(int id_topic) {
-        
-
+        log.info("conected reportTp service");
+        HeadTopic bean = topicRepository.findById(id_topic).get();
+        if(topicRepository.findById(id_topic) != null){
+        bean.setReportStatus('T');
+        topicRepository.save(bean);
+        }
         return false;
     }
     
-//    public boolean reportCm(int id_topic,int id_comment) {
-//    	
-//        Comment table = commentRepository.findAllById(id_comment);
-//        if(commentRepository.findOne(id_comment) != null){
-//          if((table.getUserId().equals(id_user))&&(table.getIsDeleted().equals('F'))) {
-//        	  table.setReportStatus('T');
-//          }	  
-//          commentRepository.save(table);
-//          return true;
-//        }
-//        else return false;
-//
-//    }
+    public boolean reportCm(int id_topic,int id_comment) {
+    	
+    	log.info("conected reportCm service");
+    	
+        return true;
+
+    }
+    
     public List<AllTopics> getUserTopic(UserPrincipal currentUser) {
         StringBuffer queryStr = new StringBuffer("SELECT HD.HEAD_TOPIC_ID as ID ,HD.TOPIC_NAME,HD.TOPIC_TEXT,HD.QUESTION_TYPE "
                 + " , (SELECT COUNT(*) FROM comment WHERE HEAD_TOPIC_ID=ID AND IS_DELETED='F') as commentCount "
