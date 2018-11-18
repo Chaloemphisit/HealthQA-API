@@ -16,7 +16,7 @@ public class HealthQaApiApplication {
 
     @PostConstruct
     void init() {
-        TimeZone.setDefault(TimeZone.getTimeZone("UTC"));
+        TimeZone.setDefault(TimeZone.getTimeZone("Asia/Bangkok"));
     }
 
     public static void main(String[] args) {
