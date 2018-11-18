@@ -91,14 +91,16 @@ public class TopicController {
         return topicService.reportTp(id_topic);
     }
 
-    @GetMapping(value = "/report/{id_topic}/{id_comment}")
-//  @PreAuthorize("hasRole('USER')")
-    @ResponseBody
-    public boolean isReportCm(@PathVariable("id_topic") int id_topic, @PathVariable("id_comment") int id_comment) {
-        log.info(" ID_TOPIC ---------> " + id_topic);
-        return false;
-    }
+//    @GetMapping(value = "/report/{id_topic}/{id_comment}")
+////  @PreAuthorize("hasRole('USER')")
+//    @ResponseBody
+//    public boolean isReportCm(@PathVariable("id_topic") int id_topic, @PathVariable("id_comment") int id_comment) {
+//        log.info(" ID_TOPIC ---------> " + id_topic);
+//        return false;
+//    }
 
+    
+    
     @PutMapping("/report/{id}")
     public ResponseEntity<?> reportTopic(@PathVariable("id") Integer id){
 //        return ResponseEntity.ok().body(topicService.reportTopic(id));
