@@ -219,14 +219,4 @@ public class TopicService {
         return Optional.of(topicRepository.save(topic));
 
     }
-
-//        public HeadTopic createTopic(HeadTopic headTopic, UserPrincipal currentUser) {
-//        Users user = new Users();
-//        user.setId(currentUser.getId());
-//
-//        headTopic.setUserId(user);
-//        headTopic.setIsDeleted('F');
-//        headTopic.setReportStatus('F');
-//        return topicRepository.save(headTopic);
-//    }
 }

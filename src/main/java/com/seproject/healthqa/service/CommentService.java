@@ -6,6 +6,7 @@ import com.seproject.healthqa.domain.entity.Users;
 import com.seproject.healthqa.domain.repository.CommentRepository;
 import com.seproject.healthqa.security.UserPrincipal;
 import com.seproject.healthqa.web.bean.NewComment;
+import java.util.Optional;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,5 +36,23 @@ public class CommentService {
         comment.setReportStatus('F');
 
         return commentRepository.save(comment);
+    }
+
+    public Optional<Comment> reportComment(Integer id) {
+        Optional<Comment> commentOpt = commentRepository.findById(id);
+        
+        System.err.println("\n\n\n\n\n\n------------------------------------------------->"
+                + ""+id
+                + "---------------------------------------------------\n\n\n\n\n\n\n\n");
+        
+        if (!commentOpt.isPresent()) {
+            return commentOpt;
+        }
+
+        Comment comment = commentOpt.get();
+        comment.setReportStatus('T');
+
+        return Optional.of(commentRepository.save(comment));
+
     }
 }
