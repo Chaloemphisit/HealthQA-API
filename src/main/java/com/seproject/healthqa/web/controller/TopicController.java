@@ -6,9 +6,11 @@ import com.seproject.healthqa.security.CurrentUser;
 import com.seproject.healthqa.security.UserPrincipal;
 import com.seproject.healthqa.service.HomeService;
 import com.seproject.healthqa.service.TopicService;
+import com.seproject.healthqa.utility.AppConstants;
 import com.seproject.healthqa.web.bean.AllTopics;
 import com.seproject.healthqa.web.bean.Topic;
 import com.seproject.healthqa.web.payload.ApiResponse;
+import com.seproject.healthqa.web.payload.PagedResponse;
 import java.net.URI;
 import java.sql.Timestamp;
 import java.util.List;
@@ -27,6 +29,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -43,22 +46,29 @@ public class TopicController {
     @Autowired
     TopicService topicService;
 
+//    @GetMapping(value = "/all")
+////  @PreAuthorize("hasRole('USER')")
+//    public List<AllTopics> getTopics() {
+//        return homeService.getTopics();
+//    }
     @GetMapping(value = "/all")
-//  @PreAuthorize("hasRole('USER')")
-    public List<AllTopics> getTopics() {
-        return homeService.getTopics();
+    public PagedResponse<AllTopics> getTopics(@RequestParam(value = "page", defaultValue = AppConstants.DEFAULT_PAGE_NUMBER) int page,
+            @RequestParam(value = "size", defaultValue = AppConstants.DEFAULT_PAGE_SIZE) int size) {
+        return homeService.getAllTopics(page, size);
     }
 
     @GetMapping(value = "/ans")
 //  @PreAuthorize("hasRole('USER')")
-    public List<AllTopics> getTopicsAns() {
-        return homeService.getTopicsAns();
+    public PagedResponse<AllTopics> getTopicsAns(@RequestParam(value = "page", defaultValue = AppConstants.DEFAULT_PAGE_NUMBER) int page,
+            @RequestParam(value = "size", defaultValue = AppConstants.DEFAULT_PAGE_SIZE) int size) {
+        return homeService.getTopicsAns(page, size);
     }
 
     @GetMapping(value = "/noAns")
 //  @PreAuthorize("hasRole('USER')")
-    public List<AllTopics> getTopicsNoAns() {
-        return homeService.getTopicsNoAns();
+    public PagedResponse<AllTopics> getTopicsNoAns(@RequestParam(value = "page", defaultValue = AppConstants.DEFAULT_PAGE_NUMBER) int page,
+            @RequestParam(value = "size", defaultValue = AppConstants.DEFAULT_PAGE_SIZE) int size) {
+        return homeService.getTopicsNoAns(page, size);
     }
 
     @GetMapping(value = "/{id}")
@@ -98,17 +108,14 @@ public class TopicController {
 //        log.info(" ID_TOPIC ---------> " + id_topic);
 //        return false;
 //    }
-
-    
-    
     @PutMapping("/report/{id}")
-    public ResponseEntity<?> reportTopic(@PathVariable("id") Integer id){
+    public ResponseEntity<?> reportTopic(@PathVariable("id") Integer id) {
 //        return ResponseEntity.ok().body(topicService.reportTopic(id));
         Optional<HeadTopic> topic = topicService.reportTopic(id);
         if (!topic.isPresent()) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new CustomException(new Timestamp(System.currentTimeMillis()), 404, "Not Found", "Topic Not Found"));
         }
-        
+
         return ResponseEntity.ok().body(new ApiResponse(true, "รายงานเสำเร็จ"));
     }
 }
