@@ -1,5 +1,6 @@
-package com.seproject.healthqa.web.controller;
+package com.seproject.healthqa.web.controller.admin;
 
+import com.seproject.healthqa.web.controller.*;
 import com.seproject.healthqa.domain.repository.UserRepository;
 import com.seproject.healthqa.security.CurrentUser;
 import com.seproject.healthqa.security.UserPrincipal;
@@ -18,8 +19,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 @CrossOrigin
 @RestController
-@RequestMapping("user")
-public class UserController {
+@RequestMapping("admin")
+public class AdminsController {
 
     private static Logger log = Logger.getLogger("InfoLogging");
 
@@ -27,7 +28,7 @@ public class UserController {
     UserRepository userRepository;
 
     @GetMapping("/me")
-    @PreAuthorize("hasAuthority('USER') or hasAuthority('S_USER') or hasAuthority('ADMIN')")
+    @PreAuthorize("hasAuthority('ADMIN')")
     public UserSummary getCurrentUser(@CurrentUser UserPrincipal currentUser) {
         UserSummary userSummary = new UserSummary(currentUser.getId(), currentUser.getFirstname(), currentUser.getLastname(),
                 currentUser.getUsername(), currentUser.getEmail(), currentUser.getAuthorities());

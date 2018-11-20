@@ -1,4 +1,4 @@
-package com.seproject.healthqa.admin;
+package com.seproject.healthqa.web.controller.admin;
 
 import com.seproject.healthqa.web.bean.AllTopics;
 import java.util.List;

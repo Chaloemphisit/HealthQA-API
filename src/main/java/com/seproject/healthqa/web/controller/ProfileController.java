@@ -1,5 +1,7 @@
 package com.seproject.healthqa.web.controller;
 
+import com.seproject.healthqa.domain.entity.Users;
+import com.seproject.healthqa.domain.repository.UserRepository;
 import com.seproject.healthqa.security.CurrentUser;
 import com.seproject.healthqa.security.UserPrincipal;
 import java.util.List;
@@ -16,7 +18,12 @@ import org.springframework.web.bind.annotation.RestController;
 import com.seproject.healthqa.service.ProfileService;
 import com.seproject.healthqa.service.TopicService;
 import com.seproject.healthqa.web.bean.AllTopics;
+import com.seproject.healthqa.web.payload.EditProfileRequest;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 @CrossOrigin
 @RestController
@@ -27,10 +34,13 @@ public class ProfileController {
 
     @Autowired
     ProfileService profileService;
-    
+
     @Autowired
     TopicService topicService;
-
+    
+    @Autowired
+    UserRepository userRepository;
+    
     @GetMapping(value = "/{username}")
     @PreAuthorize("hasAuthority('USER') or hasAuthority('S_USER')")
     public ResponseEntity<?> getUser(@CurrentUser UserPrincipal currentUser, @PathVariable("username") String username) {
@@ -38,14 +48,21 @@ public class ProfileController {
     }
 
     @GetMapping(value = "/topic")
-@PreAuthorize("hasAuthority('USER') or hasAuthority('S_USER')")
+    @PreAuthorize("hasAuthority('USER') or hasAuthority('S_USER')")
     public List<AllTopics> getUserTopic(@CurrentUser UserPrincipal currentUser) {
         return topicService.getUserTopic(currentUser);
     }
 
     @GetMapping(value = "/comment")
-@PreAuthorize("hasAuthority('USER') or hasAuthority('S_USER')")
+    @PreAuthorize("hasAuthority('USER') or hasAuthority('S_USER')")
     public List<AllTopics> getUserHasComment(@CurrentUser UserPrincipal currentUser) {
         return topicService.getUserHasComment(currentUser);
+    }
+
+    @PostMapping(value = "/edit")
+    @PreAuthorize("hasAuthority('USER') or hasAuthority('S_USER')")
+    @ResponseBody
+    public ResponseEntity<?> getTopic(@CurrentUser UserPrincipal currentUser, EditProfileRequest body) {
+        return profileService.editProfile(currentUser, body);
     }
 }

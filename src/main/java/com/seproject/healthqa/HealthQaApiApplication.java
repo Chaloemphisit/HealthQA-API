@@ -3,7 +3,6 @@ package com.seproject.healthqa;
 import java.time.Instant;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
-import java.util.Date;
 import java.util.TimeZone;
 import javax.annotation.PostConstruct;
 import org.springframework.boot.SpringApplication;
@@ -16,8 +15,8 @@ import org.springframework.data.jpa.convert.threeten.Jsr310JpaConverters;
     HealthQaApiApplication.class,
     Jsr310JpaConverters.class
 })
-public class HealthQaApiApplication {
-
+public class HealthQaApiApplication{
+    
     @PostConstruct
     void init() {
         TimeZone.setDefault(TimeZone.getTimeZone("Asia/Bangkok"));
@@ -31,6 +30,7 @@ public class HealthQaApiApplication {
 
     public static void main(String[] args) {
         SpringApplication.run(HealthQaApiApplication.class, args);
+        
 //        System.err.println("\n\n\n\n---------------------------------------------------------->\n"
 //                + "Time Zone : " + TimeZone.getDefault() + "\n"
 //                + "" + new Date()
