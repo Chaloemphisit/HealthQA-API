@@ -130,24 +130,7 @@ public class TopicService {
         return topicRepository.save(headTopic);
     }
 
-    public boolean reportTp(int id_topic) {
 
-        return false;
-    }
-
-//    public boolean reportCm(int id_topic,int id_comment) {
-//    	
-//        Comment table = commentRepository.findAllById(id_comment);
-//        if(commentRepository.findOne(id_comment) != null){
-//          if((table.getUserId().equals(id_user))&&(table.getIsDeleted().equals('F'))) {
-//        	  table.setReportStatus('T');
-//          }	  
-//          commentRepository.save(table);
-//          return true;
-//        }
-//        else return false;
-//
-//    }
     public List<AllTopics> getUserTopic(UserPrincipal currentUser) {
         StringBuffer queryStr = new StringBuffer("SELECT HD.HEAD_TOPIC_ID as ID ,HD.TOPIC_NAME,HD.TOPIC_TEXT,HD.QUESTION_TYPE "
                 + " , (SELECT COUNT(*) FROM comment WHERE HEAD_TOPIC_ID=ID AND IS_DELETED='F') as commentCount "
