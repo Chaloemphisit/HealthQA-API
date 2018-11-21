@@ -8,6 +8,7 @@ import com.seproject.healthqa.web.bean.AllTopics;
 import com.seproject.healthqa.web.bean.ReportCommentResponse;
 import com.seproject.healthqa.web.bean.ReportTopicResponse;
 import com.seproject.healthqa.web.controller.TopicController;
+import com.seproject.healthqa.web.payload.ReportResponse;
 import java.util.List;
 import java.util.logging.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,14 +30,20 @@ public class ReportController {
 
     @GetMapping(value = "/topic")
     @PreAuthorize("hasAuthority('ADMIN')")
-    public List<ReportTopicResponse> getReportTopic(@CurrentUser UserPrincipal currentUser) {
-        return reportService.getReportTopic(currentUser);
+    public List<ReportTopicResponse> getReportTopic() {
+        return reportService.getReportTopic();
     }
 
     @GetMapping(value = "/comment")
     @PreAuthorize("hasAuthority('ADMIN')")
-    public List<ReportCommentResponse> getReportComment(@CurrentUser UserPrincipal currentUser) {
-        return reportService.getReportComment(currentUser);
+    public List<ReportCommentResponse> getReportComment() {
+        return reportService.getReportComment();
+    }
+
+    @GetMapping(value = "/all")
+    @PreAuthorize("hasAuthority('ADMIN')")
+    public ReportResponse getReports() {
+        return reportService.getReport();
     }
 
 }

@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.seproject.healthqa.domain.repository.HeadTopicRepository;
 import com.seproject.healthqa.web.bean.ReportCommentResponse;
 import com.seproject.healthqa.web.bean.ReportTopicResponse;
+import com.seproject.healthqa.web.payload.ReportResponse;
 
 @Service
 public class ReportService {
@@ -30,7 +31,7 @@ public class ReportService {
     @Autowired
     CommentRepository commentRepository;
 
-    public List<ReportTopicResponse> getReportTopic(UserPrincipal currentUser) {
+    public List<ReportTopicResponse> getReportTopic() {
         StringBuffer queryStr = new StringBuffer("SELECT HD.HEAD_TOPIC_ID as ID ,HD.TOPIC_NAME,HD.TOPIC_TEXT"
                 + " FROM head_topic HD WHERE HD.IS_DELETED = 'F' AND HD.REPORT_STATUS = 'T'"
                 + " ORDER BY CREATED_DATE DESC");
@@ -51,7 +52,7 @@ public class ReportService {
         return BeanList;
     }
 
-    public List<ReportCommentResponse> getReportComment(UserPrincipal currentUser) {
+    public List<ReportCommentResponse> getReportComment() {
         StringBuffer queryStr = new StringBuffer("SELECT COMMENT_ID,HEAD_TOPIC_ID,COMMENT_TEXT "
                 + " FROM comment "
                 + " WHERE IS_DELETED='F' AND REPORT_STATUS='T'"
@@ -71,5 +72,13 @@ public class ReportService {
             BeanList.add(Bean);
         }
         return BeanList;
+    }
+
+    public ReportResponse getReport() {
+        ReportResponse reportResponse = new ReportResponse();
+        reportResponse.setTopic(getReportTopic());
+        reportResponse.setComment(getReportComment());
+
+        return reportResponse;
     }
 }
