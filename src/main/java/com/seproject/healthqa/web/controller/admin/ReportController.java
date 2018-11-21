@@ -2,8 +2,11 @@ package com.seproject.healthqa.web.controller.admin;
 
 import com.seproject.healthqa.security.CurrentUser;
 import com.seproject.healthqa.security.UserPrincipal;
+import com.seproject.healthqa.service.ReportService;
 import com.seproject.healthqa.service.TopicService;
 import com.seproject.healthqa.web.bean.AllTopics;
+import com.seproject.healthqa.web.bean.ReportCommentResponse;
+import com.seproject.healthqa.web.bean.ReportTopicResponse;
 import com.seproject.healthqa.web.controller.TopicController;
 import java.util.List;
 import java.util.logging.Logger;
@@ -16,39 +19,24 @@ import org.springframework.web.bind.annotation.RestController;
 
 @CrossOrigin
 @RestController
-@RequestMapping("admin")
-public class AdminController {
+@RequestMapping("admin/report")
+public class ReportController {
 
     private static Logger log = Logger.getLogger("InfoLogging");
 
     @Autowired
-    private TopicService topicService;
+    private ReportService reportService;
 
-    @GetMapping(value = "/all")
-//  @PreAuthorize("hasRole('USER')")
-    public boolean getTopicsRp() {
-
-        return true;
+    @GetMapping(value = "/topic")
+    @PreAuthorize("hasAuthority('ADMIN')")
+    public List<ReportTopicResponse> getReportTopic(@CurrentUser UserPrincipal currentUser) {
+        return reportService.getReportTopic(currentUser);
     }
 
-// สร้างมอคไว้เฉย ๆ     
-//    @GetMapping(value = "/delete")
-////  @PreAuthorize("hasRole('USER')")
-//    public boolean deleteDoctor() {
-//        
-//        return true;
-//    }
-//    
-//    @GetMapping(value = "/rp")
-////  @PreAuthorize("hasRole('USER')")
-//    public boolean confirmDelete() {
-//        
-//        return true;
-//    }
-    @GetMapping(value = "/report-topic")
+    @GetMapping(value = "/comment")
     @PreAuthorize("hasAuthority('ADMIN')")
-    public List<AllTopics> getUserTopic(@CurrentUser UserPrincipal currentUser) {
-        return topicService.getUserTopic(currentUser);
+    public List<ReportCommentResponse> getReportComment(@CurrentUser UserPrincipal currentUser) {
+        return reportService.getReportComment(currentUser);
     }
 
 }

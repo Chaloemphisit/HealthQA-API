@@ -5,7 +5,7 @@ import javax.validation.constraints.NotBlank;
 public class EmailRequest {
 
     @NotBlank
-    private String Subject;
+    private String subject;
 
     @NotBlank
     private String email;
@@ -14,11 +14,11 @@ public class EmailRequest {
     private String content;
 
     public String getSubject() {
-        return Subject;
+        return subject;
     }
 
-    public void setSubject(String Subject) {
-        this.Subject = Subject;
+    public void setSubject(String subject) {
+        this.subject = subject;
     }
 
     public String getEmail() {

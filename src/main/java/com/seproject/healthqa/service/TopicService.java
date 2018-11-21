@@ -31,6 +31,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.HttpStatusCodeException;
 import com.seproject.healthqa.domain.repository.HeadTopicRepository;
+import com.seproject.healthqa.web.bean.ReportTopicResponse;
 
 @Service
 public class TopicService {
@@ -130,7 +131,6 @@ public class TopicService {
         return topicRepository.save(headTopic);
     }
 
-
     public List<AllTopics> getUserTopic(UserPrincipal currentUser) {
         StringBuffer queryStr = new StringBuffer("SELECT HD.HEAD_TOPIC_ID as ID ,HD.TOPIC_NAME,HD.TOPIC_TEXT,HD.QUESTION_TYPE "
                 + " , (SELECT COUNT(*) FROM comment WHERE HEAD_TOPIC_ID=ID AND IS_DELETED='F') as commentCount "
@@ -201,5 +201,47 @@ public class TopicService {
 
         return Optional.of(topicRepository.save(topic));
 
+    }
+
+    public List<ReportTopicResponse> getReportTopic(UserPrincipal currentUser) {
+        StringBuffer queryStr = new StringBuffer("SELECT HD.HEAD_TOPIC_ID as ID ,HD.TOPIC_NAME,HD.TOPIC_TEXT"
+                + " FROM head_topic HD WHERE HD.IS_DELETED = 'F' AND HD.REPORT_STATUS = 'T'"
+                + " ORDER BY CREATED_DATE DESC");
+        
+        List<ReportTopicResponse> BeanList = new ArrayList<ReportTopicResponse>();
+        
+        Query query = entityManager.createNativeQuery(queryStr.toString());
+        List<Object[]> objectList = query.getResultList();
+
+        for (Object[] obj : objectList) {
+            ReportTopicResponse Bean = new ReportTopicResponse();
+            Bean.setId(Long.parseLong(obj[0].toString()));
+            Bean.setTopicName(obj[1].toString());
+            Bean.setTopicText(obj[2].toString());
+//            Bean.setQuestion_type(obj[3].toString());
+            BeanList.add(Bean);
+        }
+        return BeanList;
+    }
+    
+    public List<ReportTopicResponse> getReportComment(UserPrincipal currentUser) {
+        StringBuffer queryStr = new StringBuffer("SELECT HD.HEAD_TOPIC_ID as ID ,HD.TOPIC_NAME,HD.TOPIC_TEXT"
+                + " FROM head_topic HD WHERE HD.IS_DELETED = 'F' AND HD.REPORT_STATUS = 'T'"
+                + " ORDER BY CREATED_DATE DESC");
+        
+        List<ReportTopicResponse> BeanList = new ArrayList<ReportTopicResponse>();
+        
+        Query query = entityManager.createNativeQuery(queryStr.toString());
+        List<Object[]> objectList = query.getResultList();
+
+        for (Object[] obj : objectList) {
+            ReportTopicResponse Bean = new ReportTopicResponse();
+            Bean.setId(Long.parseLong(obj[0].toString()));
+            Bean.setTopicName(obj[1].toString());
+            Bean.setTopicText(obj[2].toString());
+//            Bean.setQuestion_type(obj[3].toString());
+            BeanList.add(Bean);
+        }
+        return BeanList;
     }
 }

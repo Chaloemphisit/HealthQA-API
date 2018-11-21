@@ -18,23 +18,23 @@ import org.springframework.web.bind.annotation.RestController;
 
 @CrossOrigin
 @RestController
-@RequestMapping("email")
+@RequestMapping("contactus")
 public class MailController {
 
     @Autowired
     private EmailService emailService;
 
     @PostMapping()
-    public ResponseEntity<?> sendEmail(@CurrentUser UserPrincipal currentUser, @Valid @RequestBody EmailRequest body) {
-        Mail mail = new Mail();
-        mail.setFrom(body.getEmail());
-        mail.setTo("healthquestionanswer@gmail.com");
-        mail.setSubject("Contact us: " + body.getSubject());
-        mail.setContent("Subject : " + body.getSubject() + "\n"
-                + "From : " + body.getEmail() + "\n"
-                + "Detail : " + body.getContent());
+    public ResponseEntity<?> sendEmail(@CurrentUser UserPrincipal currentUser, @Valid @RequestBody EmailRequest body) throws Exception {
+//        Mail mail = new Mail();
+//        mail.setFrom(body.getEmail());
+//        mail.setTo("healthquestionanswer@gmail.com");
+//        mail.setSubject("<Contact us <" + body.getSubject() + ">");
+//        mail.setContent("Subject : </h3>" + body.getSubject() + "\n"
+//                + "<h3>From : </h3>" + body.getEmail() + "\n"
+//                + "<h3>Detail : </h3>" + body.getContent());
 
-        emailService.sendSimpleMessage(mail);
+        emailService.sendEmailV2(body);
         return ResponseEntity.ok().body(new ApiResponse(true, "sent contact us successful"));
     }
 }
