@@ -6,6 +6,7 @@
 package com.seproject.healthqa.service;
 
 import com.seproject.healthqa.security.UserPrincipal;
+import com.seproject.healthqa.web.bean.Doctor;
 import com.seproject.healthqa.web.bean.ReportTopicResponse;
 import java.util.ArrayList;
 import java.util.List;
@@ -44,6 +45,29 @@ public class AdminService {
             Bean.setTopicName(obj[1].toString());
             Bean.setTopicText(obj[2].toString());
 //            Bean.setQuestion_type(obj[3].toString());
+            BeanList.add(Bean);
+        }
+        return BeanList;
+    }
+    
+        public List<Doctor> getDoctor(UserPrincipal currentUser) {
+        StringBuffer queryStr = new StringBuffer("SELECT u.id , u.firstname, u.lastname , u.email " 
+                +" FROM user_authority ua LEFT JOIN users u ON(ua.user_id = u.id) " 
+                +" WHERE u.is_deleted = 0 AND ua.authority_id = 2 AND ua.authority_id != 3 " 
+                +" ORDER BY u.id ");
+
+        List<Doctor> BeanList = new ArrayList<Doctor>();
+
+        Query query = entityManager.createNativeQuery(queryStr.toString());
+        List<Object[]> objectList = query.getResultList();
+
+        for (Object[] obj : objectList) {
+            Doctor Bean = new Doctor();
+            Bean.setId(Long.parseLong(obj[0].toString()));
+            Bean.setFirstName(obj[1].toString());
+            Bean.setLastName(obj[2].toString());
+            Bean.setEmail(obj[3].toString());
+
             BeanList.add(Bean);
         }
         return BeanList;

@@ -30,4 +30,10 @@ public class AdminController {
         return ResponseEntity.ok().body(adminService.getTopic(currentUser));
     }
     
+    @GetMapping(value = "/doctor")
+    @PreAuthorize("hasAuthority('ADMIN')")
+    public ResponseEntity<?> getDoctor(@CurrentUser UserPrincipal currentUser) {
+        return ResponseEntity.ok().body(adminService.getDoctor(currentUser));
+    }
+    
 }
