@@ -157,7 +157,34 @@ public class HomeService {
             throw new BadRequestException("Page size must not be greater than " + AppConstants.MAX_PAGE_SIZE);
         }
     }
-    
-    
+
+    public List<AllTopics> getSearchResult(String q) {
+        StringBuffer queryStr = new StringBuffer("SELECT HEAD_TOPIC_ID , TOPIC_NAME, TOPIC_TEXT, QUESTION_TYPE, "
+                + " (SELECT COUNT(*) FROM comment WHERE comment.HEAD_TOPIC_ID = head_topic.HEAD_TOPIC_ID AND IS_DELETED='F') as commenntCount "
+                + "FROM head_topic WHERE head_topic.TOPIC_TEXT LIKE '%" + q + "%' OR head_topic.TOPIC_NAME LIKE '%" + q + "%'");
+
+        List<AllTopics> BeanList = new ArrayList<AllTopics>();
+
+        Query query = entityManager.createNativeQuery(queryStr.toString());
+        List<Object[]> objectList = query.getResultList();
+
+        for (Object[] obj : objectList) {
+            AllTopics Bean = new AllTopics();
+            Bean.setTopicId(Integer.parseInt(obj[0].toString()));
+            Bean.setTopicName(obj[1].toString());
+            Bean.setTopicText(obj[2].toString());
+//            Bean.setQuestion_type(obj[3].toString());
+            if ((obj[3].toString()).equals("D")) {
+                Bean.setQuestionType("คำถามเฉพาะทางแพทย์");
+            } else {
+                Bean.setQuestionType("คำถามเฉพาะทางเภสัชกร");
+            }
+
+            Bean.setAnswerCount(Integer.parseInt(obj[4].toString()));
+
+            BeanList.add(Bean);
+        }
+        return BeanList;
+    }
 
 }
