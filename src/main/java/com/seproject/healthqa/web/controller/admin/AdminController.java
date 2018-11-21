@@ -7,6 +7,7 @@ import com.seproject.healthqa.service.HomeService;
 import com.seproject.healthqa.service.TopicService;
 import com.seproject.healthqa.utility.AppConstants;
 import com.seproject.healthqa.web.bean.AllTopics;
+import com.seproject.healthqa.web.bean.ReportTopicResponse;
 import com.seproject.healthqa.web.controller.TopicController;
 import com.seproject.healthqa.web.payload.PagedResponse;
 import java.util.List;
@@ -29,12 +30,12 @@ public class AdminController {
     @Autowired
     AdminService adminService;
 
-    @GetMapping(value = "/all")
-    public PagedResponse<AllTopics> getRpTopics(@RequestParam(value = "page", defaultValue = AppConstants.DEFAULT_PAGE_NUMBER) int page,
-            @RequestParam(value = "size", defaultValue = AppConstants.DEFAULT_PAGE_SIZE) int size) {
-        return adminService.getRpTopics(page, size);
+    
+    @GetMapping(value = "/topic")
+    @PreAuthorize("hasAuthority('ADMIN')")
+    public List<ReportTopicResponse> getReportTopic(@CurrentUser UserPrincipal currentUser) {
+        return adminService.getTopic(currentUser);
     }
-
 
 
 }

@@ -5,7 +5,10 @@
  */
 package com.seproject.healthqa.service;
 
+import com.seproject.healthqa.security.UserPrincipal;
+import com.seproject.healthqa.utility.AppConstants;
 import com.seproject.healthqa.web.bean.AllTopics;
+import com.seproject.healthqa.web.bean.ReportTopicResponse;
 import com.seproject.healthqa.web.payload.PagedResponse;
 import java.util.ArrayList;
 import java.util.List;
@@ -14,6 +17,8 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 /**
  *
@@ -28,38 +33,24 @@ public class AdminService {
     @PersistenceContext
     EntityManager entityManager;
 
+        public List<ReportTopicResponse> getTopic(UserPrincipal currentUser) {
+        StringBuffer queryStr = new StringBuffer("SELECT HD.HEAD_TOPIC_ID as ID ,HD.TOPIC_NAME,HD.TOPIC_TEXT"
+                + " FROM head_topic HD WHERE HD.IS_DELETED = 'F' AND HD.REPORT_STATUS = 'F'"
+                + " ORDER BY CREATED_DATE DESC");
 
-    public PagedResponse<AllTopics> getRpTopics(int page, int size) {
-        StringBuffer queryStr = new StringBuffer("SELECT HD.HEAD_TOPIC_ID as ID ,HD.TOPIC_NAME,HD.TOPIC_TEXT,HD.QUESTION_TYPE "
-                + " , (SELECT COUNT(*) FROM comment WHERE HEAD_TOPIC_ID=ID AND IS_DELETED='F') as commentCount "
-                + " FROM head_topic HD WHERE HD.IS_DELETED = 'F' AND HD.REPORT_STATUS = 'T' ORDER BY CREATED_DATE DESC");
-
-        List<AllTopics> BeanList = new ArrayList<AllTopics>();
+        List<ReportTopicResponse> BeanList = new ArrayList<ReportTopicResponse>();
 
         Query query = entityManager.createNativeQuery(queryStr.toString());
-
-        query.setFirstResult(page - 1);
-        query.setMaxResults(size);
-
         List<Object[]> objectList = query.getResultList();
 
         for (Object[] obj : objectList) {
-            AllTopics Bean = new AllTopics();
-            Bean.setTopicId(Integer.parseInt(obj[0].toString()));
+            ReportTopicResponse Bean = new ReportTopicResponse();
+            Bean.setId(Long.parseLong(obj[0].toString()));
             Bean.setTopicName(obj[1].toString());
             Bean.setTopicText(obj[2].toString());
 //            Bean.setQuestion_type(obj[3].toString());
-            if ((obj[3].toString()).equals("D")) {
-                Bean.setQuestionType("คำถามเฉพาะทางแพทย์");
-            } else {
-                Bean.setQuestionType("คำถามเฉพาะทางเภสัชกร");
-            }
-
-            Bean.setAnswerCount(Integer.parseInt(obj[4].toString()));
-
             BeanList.add(Bean);
         }
-    
-        
-        
+        return BeanList;
+    }
 }
