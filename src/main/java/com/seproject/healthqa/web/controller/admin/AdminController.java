@@ -7,6 +7,7 @@ import com.seproject.healthqa.web.bean.ReportTopicResponse;
 import java.util.List;
 import java.util.logging.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,18 +18,16 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("admin")
 public class AdminController {
-
+    
     private static Logger log = Logger.getLogger("InfoLogging");
-
+    
     @Autowired
     AdminService adminService;
-
     
     @GetMapping(value = "/topic")
     @PreAuthorize("hasAuthority('ADMIN')")
-    public List<ReportTopicResponse> getReportTopic(@CurrentUser UserPrincipal currentUser) {
-        return adminService.getTopic(currentUser);
+    public ResponseEntity<?> getReportTopic(@CurrentUser UserPrincipal currentUser) {
+        return ResponseEntity.ok().body(adminService.getTopic(currentUser));
     }
-
-
+    
 }

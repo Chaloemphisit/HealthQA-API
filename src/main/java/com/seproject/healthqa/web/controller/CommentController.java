@@ -1,7 +1,6 @@
 package com.seproject.healthqa.web.controller;
 
 import com.seproject.healthqa.domain.entity.Comment;
-import com.seproject.healthqa.domain.entity.HeadTopic;
 import com.seproject.healthqa.exception.CustomException;
 import com.seproject.healthqa.security.CurrentUser;
 import com.seproject.healthqa.security.UserPrincipal;
