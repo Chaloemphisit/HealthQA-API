@@ -203,13 +203,28 @@ public class TopicService {
 
     }
 
+    public Optional<HeadTopic> deleteTopic(Integer id) {
+        Optional<HeadTopic> headTopic = topicRepository.findById(id);
+//        if (topicRepository.existsByHeadTopicId(id)) {
+
+        if (!headTopic.isPresent()) {
+            return headTopic;
+        }
+
+        HeadTopic topic = headTopic.get();
+        topic.setIsDeleted('T');
+
+        return Optional.of(topicRepository.save(topic));
+
+    }
+
     public List<ReportTopicResponse> getReportTopic(UserPrincipal currentUser) {
         StringBuffer queryStr = new StringBuffer("SELECT HD.HEAD_TOPIC_ID as ID ,HD.TOPIC_NAME,HD.TOPIC_TEXT"
                 + " FROM head_topic HD WHERE HD.IS_DELETED = 'F' AND HD.REPORT_STATUS = 'T'"
                 + " ORDER BY CREATED_DATE DESC");
-        
+
         List<ReportTopicResponse> BeanList = new ArrayList<ReportTopicResponse>();
-        
+
         Query query = entityManager.createNativeQuery(queryStr.toString());
         List<Object[]> objectList = query.getResultList();
 
@@ -223,14 +238,14 @@ public class TopicService {
         }
         return BeanList;
     }
-    
+
     public List<ReportTopicResponse> getReportComment(UserPrincipal currentUser) {
         StringBuffer queryStr = new StringBuffer("SELECT HD.HEAD_TOPIC_ID as ID ,HD.TOPIC_NAME,HD.TOPIC_TEXT"
                 + " FROM head_topic HD WHERE HD.IS_DELETED = 'F' AND HD.REPORT_STATUS = 'T'"
                 + " ORDER BY CREATED_DATE DESC");
-        
+
         List<ReportTopicResponse> BeanList = new ArrayList<ReportTopicResponse>();
-        
+
         Query query = entityManager.createNativeQuery(queryStr.toString());
         List<Object[]> objectList = query.getResultList();
 

@@ -98,7 +98,6 @@ public class TopicController {
         if (!topic.isPresent()) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new CustomException(new Timestamp(System.currentTimeMillis()), 404, "Not Found", "Topic Not Found"));
         }
-
-        return ResponseEntity.ok().body(new ApiResponse(true, "รายงานเสำเร็จ"));
+        return ResponseEntity.ok().body(new ApiResponse(true, "รายงานสำเร็จ"));
     }
 }

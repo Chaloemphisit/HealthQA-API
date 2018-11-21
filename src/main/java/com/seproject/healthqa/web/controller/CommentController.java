@@ -47,13 +47,13 @@ public class CommentController {
     }
 
     @PutMapping("/report/{id}")
-    public ResponseEntity<?> reportTopic(@PathVariable("id") Integer id) {
+    public ResponseEntity<?> reportComment(@PathVariable("id") Integer id) {
 //        return ResponseEntity.ok().body(topicService.reportTopic(id));
         Optional<Comment> topic = commentService.reportComment(id);
         if (!topic.isPresent()) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new CustomException(new Timestamp(System.currentTimeMillis()), 404, "Not Found", "Comment Not Found"));
         }
 
-        return ResponseEntity.ok().body(new ApiResponse(true, "รายงานเสำเร็จ"));
+        return ResponseEntity.ok().body(new ApiResponse(true, "รายงานสำเร็จ"));
     }
 }

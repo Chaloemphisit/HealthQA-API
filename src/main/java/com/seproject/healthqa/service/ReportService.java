@@ -65,6 +65,7 @@ public class ReportService {
 
         for (Object[] obj : objectList) {
             ReportCommentResponse Bean = new ReportCommentResponse();
+            
             Bean.setId(Long.parseLong(obj[0].toString()));
             Bean.setTopicId(Long.parseLong(obj[1].toString()));
             Bean.setCommentText(obj[2].toString());

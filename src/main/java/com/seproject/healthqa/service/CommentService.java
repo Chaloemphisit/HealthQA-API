@@ -40,11 +40,11 @@ public class CommentService {
 
     public Optional<Comment> reportComment(Integer id) {
         Optional<Comment> commentOpt = commentRepository.findById(id);
-        
+
         System.err.println("\n\n\n\n\n\n------------------------------------------------->"
-                + ""+id
+                + "" + id
                 + "---------------------------------------------------\n\n\n\n\n\n\n\n");
-        
+
         if (!commentOpt.isPresent()) {
             return commentOpt;
         }
@@ -54,5 +54,17 @@ public class CommentService {
 
         return Optional.of(commentRepository.save(comment));
 
+    }
+
+    public Optional<Comment> deleteComment(Integer id) {
+        Optional<Comment> commentOpt = commentRepository.findById(id);
+        if (!commentOpt.isPresent()) {
+            return commentOpt;
+        }
+
+        Comment comment = commentOpt.get();
+        comment.setIsDeleted('T');
+
+        return Optional.of(commentRepository.save(comment));
     }
 }
