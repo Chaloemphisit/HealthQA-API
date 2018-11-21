@@ -6,7 +6,7 @@
 package com.seproject.healthqa.service;
 
 import com.seproject.healthqa.security.UserPrincipal;
-import com.seproject.healthqa.web.bean.Doctor;
+import com.seproject.healthqa.web.bean.Person;
 import com.seproject.healthqa.web.bean.ReportTopicResponse;
 import java.util.ArrayList;
 import java.util.List;
@@ -27,7 +27,6 @@ public class AdminService {
 
     @PersistenceContext
     EntityManager entityManager;
-    
 
     public List<ReportTopicResponse> getTopic(UserPrincipal currentUser) {
         StringBuffer queryStr = new StringBuffer("SELECT HD.HEAD_TOPIC_ID as ID ,HD.TOPIC_NAME,HD.TOPIC_TEXT"
@@ -49,20 +48,20 @@ public class AdminService {
         }
         return BeanList;
     }
-    
-        public List<Doctor> getDoctor(UserPrincipal currentUser) {
-        StringBuffer queryStr = new StringBuffer("SELECT u.id , u.firstname, u.lastname , u.email " 
-                +" FROM user_authority ua LEFT JOIN users u ON(ua.user_id = u.id) " 
-                +" WHERE u.is_deleted = 0 AND ua.authority_id = 2 AND ua.authority_id != 3 " 
-                +" ORDER BY u.id ");
 
-        List<Doctor> BeanList = new ArrayList<Doctor>();
+    public List<Person> getDoctor(UserPrincipal currentUser) {
+        StringBuffer queryStr = new StringBuffer("SELECT u.id , u.firstname, u.lastname , u.email "
+                + " FROM user_authority ua LEFT JOIN users u ON(ua.user_id = u.id) "
+                + " WHERE u.is_deleted = 0 AND ua.authority_id = 2 AND ua.authority_id != 3 "
+                + " ORDER BY u.id ");
+
+        List<Person> BeanList = new ArrayList<Person>();
 
         Query query = entityManager.createNativeQuery(queryStr.toString());
         List<Object[]> objectList = query.getResultList();
 
         for (Object[] obj : objectList) {
-            Doctor Bean = new Doctor();
+            Person Bean = new Person();
             Bean.setId(Long.parseLong(obj[0].toString()));
             Bean.setFirstName(obj[1].toString());
             Bean.setLastName(obj[2].toString());
@@ -72,4 +71,28 @@ public class AdminService {
         }
         return BeanList;
     }
+
+    public List<Person> getAdmin(UserPrincipal currentUser) {
+        StringBuffer queryStr = new StringBuffer("SELECT u.id , u.firstname, u.lastname , u.email "
+                + " FROM user_authority ua LEFT JOIN users u ON(ua.user_id = u.id) "
+                + " WHERE u.is_deleted = 0 AND ua.authority_id = 3 AND ua.authority_id != 2 "
+                + " ORDER BY u.id ");
+
+        List<Person> BeanList = new ArrayList<Person>();
+
+        Query query = entityManager.createNativeQuery(queryStr.toString());
+        List<Object[]> objectList = query.getResultList();
+
+        for (Object[] obj : objectList) {
+            Person Bean = new Person();
+            Bean.setId(Long.parseLong(obj[0].toString()));
+            Bean.setFirstName(obj[1].toString());
+            Bean.setLastName(obj[2].toString());
+            Bean.setEmail(obj[3].toString());
+
+            BeanList.add(Bean);
+        }
+        return BeanList;
+    }
+
 }

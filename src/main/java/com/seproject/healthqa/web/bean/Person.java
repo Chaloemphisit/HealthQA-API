@@ -9,7 +9,7 @@ package com.seproject.healthqa.web.bean;
  *
  * @author 59050320
  */
-public class Doctor {
+public class Person {
     
     private Long id;
     private String firstName;

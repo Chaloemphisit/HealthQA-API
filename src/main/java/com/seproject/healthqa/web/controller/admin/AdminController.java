@@ -18,22 +18,27 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("admin")
 public class AdminController {
-    
+
     private static Logger log = Logger.getLogger("InfoLogging");
-    
+
     @Autowired
     AdminService adminService;
-    
+
     @GetMapping(value = "/topic")
     @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<?> getReportTopic(@CurrentUser UserPrincipal currentUser) {
         return ResponseEntity.ok().body(adminService.getTopic(currentUser));
     }
-    
+
     @GetMapping(value = "/doctor")
     @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<?> getDoctor(@CurrentUser UserPrincipal currentUser) {
         return ResponseEntity.ok().body(adminService.getDoctor(currentUser));
     }
-    
+
+    @GetMapping(value = "/am")
+    @PreAuthorize("hasAuthority('ADMIN')")
+    public ResponseEntity<?> getAdmin(@CurrentUser UserPrincipal currentUser) {
+        return ResponseEntity.ok().body(adminService.getAdmin(currentUser));
+    }
 }
