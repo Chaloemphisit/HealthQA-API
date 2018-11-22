@@ -53,10 +53,9 @@ public class ReportService {
     }
 
     public List<ReportCommentResponse> getReportComment() {
-        StringBuffer queryStr = new StringBuffer("SELECT COMMENT_ID,HEAD_TOPIC_ID,COMMENT_TEXT "
-                + " FROM comment "
-                + " WHERE IS_DELETED='F' AND REPORT_STATUS='T'"
-                + " ORDER BY CREATED_DATE DESC");
+        StringBuffer queryStr = new StringBuffer("SELECT comment.COMMENT_ID, comment.HEAD_TOPIC_ID, COMMENT_TEXT"
+                + " FROM comment INNER JOIN head_topic ON (comment.HEAD_TOPIC_ID = head_topic.HEAD_TOPIC_ID)"
+                + " WHERE head_topic.IS_DELETED = 'F' AND comment.IS_DELETED='F' AND comment.REPORT_STATUS='T'");
 
         List<ReportCommentResponse> BeanList = new ArrayList<ReportCommentResponse>();
 
@@ -65,7 +64,7 @@ public class ReportService {
 
         for (Object[] obj : objectList) {
             ReportCommentResponse Bean = new ReportCommentResponse();
-            
+
             Bean.setId(Long.parseLong(obj[0].toString()));
             Bean.setTopicId(Long.parseLong(obj[1].toString()));
             Bean.setCommentText(obj[2].toString());
