@@ -92,7 +92,7 @@ public class ReportController {
     @PutMapping("/topic/cancel/{id}")
     public ResponseEntity<?> cancelReportTopic(@PathVariable("id") Integer id) {
 //        return ResponseEntity.ok().body(topicService.reportTopic(id));
-        Optional<HeadTopic> topic = topicService.deleteTopic(id);
+        Optional<HeadTopic> topic = topicService.cancelReportTopic(id);
         if (!topic.isPresent()) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new CustomException(new Timestamp(System.currentTimeMillis()), 404, "Not Found", "Topic Not Found"));
         }
