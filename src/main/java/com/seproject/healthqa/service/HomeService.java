@@ -161,7 +161,8 @@ public class HomeService {
     public List<AllTopics> getSearchResult(String q) {
         StringBuffer queryStr = new StringBuffer("SELECT HEAD_TOPIC_ID , TOPIC_NAME, TOPIC_TEXT, QUESTION_TYPE, "
                 + " (SELECT COUNT(*) FROM comment WHERE comment.HEAD_TOPIC_ID = head_topic.HEAD_TOPIC_ID AND IS_DELETED='F') as commenntCount "
-                + "FROM head_topic WHERE head_topic.TOPIC_TEXT LIKE '%" + q + "%' OR head_topic.TOPIC_NAME LIKE '%" + q + "%'");
+                + " FROM head_topic "
+                + " WHERE head_topic.IS_DELETED = 'F' AND (head_topic.TOPIC_TEXT LIKE '%" + q + "%' OR head_topic.TOPIC_NAME LIKE '%" + q + "%')");
 
         List<AllTopics> BeanList = new ArrayList<AllTopics>();
 
