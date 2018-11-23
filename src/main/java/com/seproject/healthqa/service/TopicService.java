@@ -227,7 +227,7 @@ public class TopicService {
         }
 
         HeadTopic topic = headTopic.get();
-        topic.setIsDeleted('F');
+        topic.setReportStatus('F');
 
         return Optional.of(topicRepository.save(topic));
 

@@ -75,7 +75,7 @@ public class CommentService {
         }
 
         Comment comment = commentOpt.get();
-        comment.setIsDeleted('F');
+        comment.setReportStatus('F');
 
         return Optional.of(commentRepository.save(comment));
     }
