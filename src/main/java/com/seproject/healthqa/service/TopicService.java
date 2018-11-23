@@ -218,6 +218,21 @@ public class TopicService {
 
     }
 
+    public Optional<HeadTopic> cancelReportTopic(Integer id) {
+        Optional<HeadTopic> headTopic = topicRepository.findById(id);
+//        if (topicRepository.existsByHeadTopicId(id)) {
+
+        if (!headTopic.isPresent()) {
+            return headTopic;
+        }
+
+        HeadTopic topic = headTopic.get();
+        topic.setIsDeleted('F');
+
+        return Optional.of(topicRepository.save(topic));
+
+    }
+
     public List<ReportTopicResponse> getReportTopic(UserPrincipal currentUser) {
         StringBuffer queryStr = new StringBuffer("SELECT HD.HEAD_TOPIC_ID as ID ,HD.TOPIC_NAME,HD.TOPIC_TEXT"
                 + " FROM head_topic HD WHERE HD.IS_DELETED = 'F' AND HD.REPORT_STATUS = 'T'"

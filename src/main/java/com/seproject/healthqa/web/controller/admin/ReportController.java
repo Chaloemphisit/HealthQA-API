@@ -78,4 +78,24 @@ public class ReportController {
         }
         return ResponseEntity.ok().body(new ApiResponse(true, "ลบสำเร็จ"));
     }
+
+    @PutMapping("/comment/cancel/{id}")
+    public ResponseEntity<?> cancelReportComment(@PathVariable("id") Integer id) {
+//        return ResponseEntity.ok().body(topicService.reportTopic(id));
+        Optional<Comment> topic = commentService.cancelReportComment(id);
+        if (!topic.isPresent()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new CustomException(new Timestamp(System.currentTimeMillis()), 404, "Not Found", "Comment Not Found"));
+        }
+        return ResponseEntity.ok().body(new ApiResponse(true, "ยกเลิกสำเร็จ"));
+    }
+
+    @PutMapping("/topic/cancel/{id}")
+    public ResponseEntity<?> cancelReportTopic(@PathVariable("id") Integer id) {
+//        return ResponseEntity.ok().body(topicService.reportTopic(id));
+        Optional<HeadTopic> topic = topicService.deleteTopic(id);
+        if (!topic.isPresent()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new CustomException(new Timestamp(System.currentTimeMillis()), 404, "Not Found", "Topic Not Found"));
+        }
+        return ResponseEntity.ok().body(new ApiResponse(true, "ยกเลิกสำเร็จ"));
+    }
 }

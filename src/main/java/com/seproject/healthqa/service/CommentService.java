@@ -67,4 +67,16 @@ public class CommentService {
 
         return Optional.of(commentRepository.save(comment));
     }
+
+    public Optional<Comment>cancelReportComment(Integer id) {
+        Optional<Comment> commentOpt = commentRepository.findById(id);
+        if (!commentOpt.isPresent()) {
+            return commentOpt;
+        }
+
+        Comment comment = commentOpt.get();
+        comment.setIsDeleted('F');
+
+        return Optional.of(commentRepository.save(comment));
+    }
 }
