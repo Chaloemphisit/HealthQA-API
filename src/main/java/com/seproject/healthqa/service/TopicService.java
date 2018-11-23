@@ -48,7 +48,7 @@ public class TopicService {
 
     public ResponseEntity<?> getTopic(int id_topic) {
         StringBuffer queryStr = new StringBuffer("SELECT HD.HEAD_TOPIC_ID, HD.TOPIC_NAME, HD.TOPIC_TEXT, HD.WEIGHT, HD.HEIGHT, HD.AGE_Y, HD.AGE_M, HD.AGE_D,"
-                + "		HD.SEX, HD.DISEASE, QUESTION_PURPOSE, HD.QUESTION_TYPE, USERS.firstname, USERS.lastname, CREATED_DATE, "
+                + "		HD.SEX, HD.DISEASE, QUESTION_PURPOSE, HD.QUESTION_TYPE, USERS.username, CREATED_DATE, "
                 + "        (SELECT COUNT(*) FROM comment WHERE HEAD_TOPIC_ID=HD.HEAD_TOPIC_ID AND IS_DELETED='F')\n"
                 + "FROM head_topic HD LEFT JOIN users ON(users.id = HD.USER_ID)\n"
                 + "WHERE (HD.HEAD_TOPIC_ID = " + id_topic + ") AND (HD.IS_DELETED = 'F')");
@@ -86,9 +86,9 @@ public class TopicService {
                 topic.setQuestionType("คำถามเฉพาะทางเภสัชกร");
             }
 
-            topic.setName(obj[12].toString() + " " + obj[13].toString());
-            topic.setCreateDate((java.sql.Timestamp) obj[14]);
-            topic.setAnswerCount(obj[15].toString());
+            topic.setName(obj[12].toString());
+            topic.setCreateDate((java.sql.Timestamp) obj[13]);
+            topic.setAnswerCount(obj[14].toString());
             topic.setComments(getComment(id_topic));
         }
         return ResponseEntity.ok(topic);
@@ -96,7 +96,7 @@ public class TopicService {
     }
 
     public List<Comments> getComment(int id_topic) {
-        StringBuffer queryStr = new StringBuffer("SELECT COMMENT_ID,COMMENT_TEXT,CREATED_DATE, users.firstname, users.lastname,"
+        StringBuffer queryStr = new StringBuffer("SELECT COMMENT_ID,COMMENT_TEXT,CREATED_DATE, users.username,"
                 + "		(SELECT authority.name"
                 + "              FROM user_authority INNER JOIN authority ON(user_authority.authority_id=authority.id)"
                 + "              WHERE users.id = user_authority.user_id)"
@@ -113,8 +113,8 @@ public class TopicService {
             Bean.setCommentText(obj[1].toString());
 //                Bean.setCreateDate(new SimpleDateFormat("dd/MM/yyyy").parse(new SimpleDateFormat("dd/MM/yyyy").format(obj[2].toString())));
             Bean.setCreateDate((Date) obj[2]);
-            Bean.setName(obj[3].toString() + " " + obj[4].toString());
-            Bean.setUserType(obj[5].toString());
+            Bean.setName(obj[3].toString());
+            Bean.setUserType(obj[4].toString());
             BeanList.add(Bean);
 
         }
