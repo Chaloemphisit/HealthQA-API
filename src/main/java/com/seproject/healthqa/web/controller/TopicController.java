@@ -53,31 +53,26 @@ public class TopicController {
     }
     
     @GetMapping(value = "/ans")
-//  @PreAuthorize("hasRole('USER')")
     public PagedResponse<AllTopics> getTopicsAns(@RequestParam(value = "page", defaultValue = AppConstants.DEFAULT_PAGE_NUMBER) int page,
             @RequestParam(value = "size", defaultValue = AppConstants.DEFAULT_PAGE_SIZE) int size) {
         return homeService.getTopicsAns(page, size);
     }
     
     @GetMapping(value = "/noAns")
-//  @PreAuthorize("hasRole('USER')")
     public PagedResponse<AllTopics> getTopicsNoAns(@RequestParam(value = "page", defaultValue = AppConstants.DEFAULT_PAGE_NUMBER) int page,
             @RequestParam(value = "size", defaultValue = AppConstants.DEFAULT_PAGE_SIZE) int size) {
         return homeService.getTopicsNoAns(page, size);
     }
     
     @GetMapping(value = "/{id}")
-//  @PreAuthorize("hasRole('USER')")
     @ResponseBody
     public ResponseEntity<?> getTopic(@PathVariable("id") int id_topic) {
         return topicService.getTopic(id_topic);
     }
     
     @PostMapping()
-    @PreAuthorize("hasAuthority('USER')")
     public ResponseEntity<?> postTopic(@CurrentUser UserPrincipal currentUser, @Valid @RequestBody HeadTopic body) {
         HeadTopic headTopic = topicService.createTopic(body, currentUser);
-//        return ResponseEntity.status(HttpStatus.CREATED).body(headTopic);
 
         URI location = ServletUriComponentsBuilder
                 .fromCurrentContextPath().path("/topic/{headtopicid}")
@@ -90,7 +85,6 @@ public class TopicController {
     
     @PutMapping("/report/{id}")
     public ResponseEntity<?> reportTopic(@PathVariable("id") Integer id) {
-//        return ResponseEntity.ok().body(topicService.reportTopic(id));
         Optional<HeadTopic> topic = topicService.reportTopic(id);
         if (!topic.isPresent()) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new CustomException(new Timestamp(System.currentTimeMillis()), 404, "Not Found", "Topic Not Found"));
@@ -99,7 +93,6 @@ public class TopicController {
     }
     
     @GetMapping(value = "/search")
-//  @PreAuthorize("hasRole('USER')")
     public List<AllTopics> getSearchResult(@RequestParam(value = "q", defaultValue = AppConstants.DEFAULT_PAGE_NUMBER) String q,
             @RequestParam(value = "size", defaultValue = AppConstants.DEFAULT_PAGE_SIZE) int size) {
         return homeService.getSearchResult(q);
